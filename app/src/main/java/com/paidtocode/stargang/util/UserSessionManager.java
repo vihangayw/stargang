@@ -22,7 +22,7 @@ public class UserSessionManager {
 	private static final String KEY_OPERATOR = "Operator";
 	private static final String KEY_POINT = "Pint";
 	private static final String KEY_AUTH_TOKEN = "Token";
-	;
+	private static final String KEY_IS_LOGIN = "IsLogin";
 	private static final String KEY_USER = "User";
 
 
@@ -43,6 +43,7 @@ public class UserSessionManager {
 	}
 
 	public void createUser(String json) {
+		editor.putBoolean(KEY_IS_LOGIN, true);
 		editor.putString(KEY_USER, json);
 		editor.commit();
 	}
@@ -53,7 +54,7 @@ public class UserSessionManager {
 	}
 
 
-//	public VehicleTypeList getVehicleList() {
+	//	public VehicleTypeList getVehicleList() {
 //		String modulePref = getVehicleListPref();
 //		if (!TextUtils.isEmpty(modulePref)) {
 //			try {
@@ -65,17 +66,17 @@ public class UserSessionManager {
 //		return null;
 //	}
 //
-public Signup getUser() {
-	String modulePref = getUserPref();
-	if (!TextUtils.isEmpty(modulePref)) {
-		try {
-			return new ObjectMapper().readValue(modulePref, Signup.class);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Signup getUser() {
+		String modulePref = getUserPref();
+		if (!TextUtils.isEmpty(modulePref)) {
+			try {
+				return new ObjectMapper().readValue(modulePref, Signup.class);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		return null;
 	}
-	return null;
-}
 
 	private String getUserPref() {
 		return pref.getString(KEY_USER, null);
@@ -83,6 +84,10 @@ public Signup getUser() {
 
 	public String getAuthToken() {
 		return pref.getString(KEY_AUTH_TOKEN, null);
+	}
+
+	public boolean isLogin() {
+		return pref.getBoolean(KEY_IS_LOGIN, false);
 	}
 
 	public void clearPref() {

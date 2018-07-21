@@ -6,7 +6,9 @@ import com.paidtocode.stargang.api.APIURLHelper;
 import com.paidtocode.stargang.api.request.helper.UserRequestHelper;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupListResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupResponseFactory;
+import com.paidtocode.stargang.api.response.factory.impl.AncestorUserListResponseFactory;
 import com.paidtocode.stargang.modal.Register;
+import com.paidtocode.stargang.util.UserSessionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,19 +19,6 @@ import java.util.Map;
  */
 
 public class UserRequestHelperImpl implements UserRequestHelper {
-
-//	@Override
-//	public void vehicleOut(String vehicleType, String deviceID, String cardID, String locationID,
-//	                       APIHelper.PostManResponseListener listener) {
-//		Map<String, String> paramMap = new HashMap<>();
-////		paramMap.put("device_id", deviceID);
-////		paramMap.put("location", locationID);
-////		paramMap.put("nfc_number", cardID);
-////		paramMap.put("vehicle", vehicleType);
-////		paramMap.put("operator", operator != null && !TextUtils.isEmpty(operator.getLoID()) ? operator.getLoID() : "");
-////		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorVehicleOutResponseFactory(),
-////				Request.Method.POST, BASE_URL.concat("/Nfc_mobile/vehicleOut"), paramMap);
-//	}
 
 	@Override
 	public void registerUser(Register register, APIHelper.PostManResponseListener listener) {
@@ -50,5 +39,15 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 		paramMap.put("password", pw);
 		APIHelper.getInstance().sendStringRequestsWithParams(listener, new AncestorSignupResponseFactory(),
 				Request.Method.POST, APIURLHelper.getLogin(), paramMap);
+	}
+
+	@Override
+	public void getUserList(int page, int limit, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("users", String.valueOf(limit));
+		paramMap.put("page", String.valueOf(page));
+		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorUserListResponseFactory(),
+				Request.Method.POST, APIURLHelper.getAllUsers(), paramMap);
 	}
 }

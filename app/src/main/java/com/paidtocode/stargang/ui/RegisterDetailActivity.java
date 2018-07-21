@@ -1,5 +1,6 @@
 package com.paidtocode.stargang.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -22,6 +23,7 @@ import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.api.response.SignUPListResponse;
 import com.paidtocode.stargang.modal.Register;
 import com.paidtocode.stargang.modal.Signup;
+import com.paidtocode.stargang.util.UtilityManager;
 
 import java.util.List;
 
@@ -64,7 +66,8 @@ public class RegisterDetailActivity extends AppCompatActivity {
 	}
 
 	private void registerUser() {
-		if (checkNetwork())
+		if (checkNetwork()) {
+			final ProgressDialog progressDialog = UtilityManager.showProgressAlert(this, getString(R.string.wait));
 			new UserRequestHelperImpl().registerUser(new Register(txtEmail.getText().toString().trim(),
 							txtPassword.getText().toString().trim(),
 							txtConfirmPassword.getText().toString().trim(),
@@ -73,6 +76,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 					new APIHelper.PostManResponseListener() {
 						@Override
 						public void onResponse(Ancestor ancestor) {
+							progressDialog.dismiss();
 							if (ancestor.getStatus() && ancestor instanceof SignUPListResponse) {
 								List<Signup> data = ((SignUPListResponse) ancestor).getData();
 								if (data != null && !data.isEmpty()) {
@@ -86,6 +90,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 
 						@Override
 						public void onError(Error error) {
+							progressDialog.dismiss();
 							if (error != null) {
 								if (!TextUtils.isEmpty(error.getMessage())) {
 									Toast.makeText(RegisterDetailActivity.this,
@@ -94,6 +99,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 							}
 						}
 					});
+		}
 	}
 
 	private boolean valid() {

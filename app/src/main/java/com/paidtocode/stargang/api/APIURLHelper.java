@@ -9,6 +9,7 @@ public class APIURLHelper {
 
 	private static final String REGISTER = "/register";
 	private static final String LOGIN = "/login";
+	private static final String ALL_USERS = "/allUsers";
 
 	public static String getRegisterURL() {
 		return BASE_URL.concat(REGISTER);
@@ -16,5 +17,9 @@ public class APIURLHelper {
 
 	public static String getLogin() {
 		return BASE_URL.concat(LOGIN);
+	}
+
+	public static String getAllUsers() {
+		return BASE_URL.concat(ALL_USERS);
 	}
 }

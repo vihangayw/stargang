@@ -14,5 +14,5 @@ public interface UserRequestHelper {
 
 	void loginUser(String email, String pw, APIHelper.PostManResponseListener listener);
 
-
+	void getUserList(int page, int limit, APIHelper.PostManResponseListener listener);
 }

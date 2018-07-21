@@ -1,5 +1,6 @@
 package com.paidtocode.stargang.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -23,6 +24,7 @@ import com.paidtocode.stargang.api.response.SignUpResponse;
 import com.paidtocode.stargang.modal.Signup;
 import com.paidtocode.stargang.util.JsonService;
 import com.paidtocode.stargang.util.UserSessionManager;
+import com.paidtocode.stargang.util.UtilityManager;
 
 import org.json.JSONException;
 
@@ -79,12 +81,14 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	private void loginUser() {
-		if (checkNetwork())
+		if (checkNetwork()) {
+			final ProgressDialog progressDialog = UtilityManager.showProgressAlert(this, getString(R.string.wait));
 			new UserRequestHelperImpl().loginUser(txtEmail.getText().toString().trim(),
 					txtPassword.getText().toString().trim(),
 					new APIHelper.PostManResponseListener() {
 						@Override
 						public void onResponse(Ancestor ancestor) {
+							progressDialog.dismiss();
 							if (ancestor.getStatus() && ancestor instanceof SignUpResponse) {
 								Signup data = ((SignUpResponse) ancestor).getData();
 								if (data != null) {
@@ -95,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
 						@Override
 						public void onError(Error error) {
+							progressDialog.dismiss();
 							if (error != null) {
 								if (!TextUtils.isEmpty(error.getMessage())) {
 									Toast.makeText(LoginActivity.this,
@@ -103,12 +108,15 @@ public class LoginActivity extends AppCompatActivity {
 							}
 						}
 					});
+		}
 	}
 
 	private void proceedLogin(Signup signup) {
 		try {
 			UserSessionManager.getInstance().createUser(JsonService.toJsonNode(signup).toString());
 			UserSessionManager.getInstance().createToken(signup.getToken());
+			startActivity(new Intent(LoginActivity.this, DashbordActivity.class));
+			finish();
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
