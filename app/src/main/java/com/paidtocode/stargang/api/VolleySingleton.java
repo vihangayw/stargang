@@ -8,6 +8,7 @@ import com.android.volley.toolbox.Volley;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paidtocode.stargang.NFCApplication;
 import com.paidtocode.stargang.api.response.Error;
+import com.paidtocode.stargang.util.UserSessionManager;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -131,7 +132,7 @@ public class VolleySingleton {
 	public HashMap<String, String> getAPIHeaderUrlEncoded() {
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-		// headers.put("Content-Encoding", "gzip");
+//		headers.put("Authentication", UserSessionManager.getInstance().getAuthToken());
 		return headers;
 	}
 
@@ -167,7 +168,7 @@ public class VolleySingleton {
 	public HashMap<String, String> getAPIHeaderUrlEncodedWithAuth() {
 		HashMap<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-		// headers.put("Content-Encoding", "gzip");
+		headers.put("Authentication", UserSessionManager.getInstance().getAuthToken());
 		return headers;
 	}
 }

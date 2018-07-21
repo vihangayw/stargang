@@ -7,11 +7,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Created by Vihanga on 27/2/18.
  */
 
-public class Error extends Ancestor<String> {
+public class Error extends Ancestor<Object> {
 
 
 	public Error(@JsonProperty("message") String message,
-	             @JsonProperty("data") String data,
+	             @JsonProperty("data") Object data,
 	             @JsonProperty("status") boolean status) {
 		super(message, status, data);
 	}

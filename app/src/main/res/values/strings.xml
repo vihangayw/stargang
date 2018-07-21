@@ -2,4 +2,6 @@
     <string name="app_name">StarGang</string>
     <string name="enter_your_mobile_number">Enter Your Mobile Number</string>
     <string name="submit">Submit</string>
+    <string name="enter_the_code">Enter the Code</string>
+    <string name="no_network">No Network</string>
 </resources>

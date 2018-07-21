@@ -2,6 +2,7 @@ package com.paidtocode.stargang.api.request.helper;
 
 
 import com.paidtocode.stargang.api.APIHelper;
+import com.paidtocode.stargang.modal.Register;
 
 /**
  * Created by Vihanga on 3/8/2018.
@@ -9,8 +10,9 @@ import com.paidtocode.stargang.api.APIHelper;
 
 public interface UserRequestHelper {
 
-	void vehicleOut(String vehicleType, String deviceID, String cardID, String locationID,
-	                APIHelper.PostManResponseListener listener);
+	void registerUser(Register register, APIHelper.PostManResponseListener listener);
+
+	void loginUser(String email, String pw, APIHelper.PostManResponseListener listener);
 
 
 }

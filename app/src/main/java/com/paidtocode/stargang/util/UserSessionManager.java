@@ -2,9 +2,14 @@ package com.paidtocode.stargang.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paidtocode.stargang.BuildConfig;
 import com.paidtocode.stargang.NFCApplication;
+import com.paidtocode.stargang.modal.Signup;
+
+import java.io.IOException;
 
 /**
  * Created by vihanga on 5/11/18 in ion-app.
@@ -16,6 +21,9 @@ public class UserSessionManager {
 	private static final String KEY_VEHICLE_LIST = "VehicleTypes";
 	private static final String KEY_OPERATOR = "Operator";
 	private static final String KEY_POINT = "Pint";
+	private static final String KEY_AUTH_TOKEN = "Token";
+	;
+	private static final String KEY_USER = "User";
 
 
 	private final static UserSessionManager instance =
@@ -34,25 +42,16 @@ public class UserSessionManager {
 		return instance;
 	}
 
-	public void createVehicleList(String json) {
-		editor.putString(KEY_VEHICLE_LIST, json);
+	public void createUser(String json) {
+		editor.putString(KEY_USER, json);
 		editor.commit();
 	}
 
-	public void createPoint(String point) {
-		editor.putString(KEY_POINT, point);
+	public void createToken(String token) {
+		editor.putString(KEY_AUTH_TOKEN, token);
 		editor.commit();
 	}
 
-	public void createOperator(String json) {
-		editor.putString(KEY_OPERATOR, json);
-		editor.commit();
-	}
-
-	public void removeOperator() {
-		editor.remove(KEY_OPERATOR);
-		editor.commit();
-	}
 
 //	public VehicleTypeList getVehicleList() {
 //		String modulePref = getVehicleListPref();
@@ -66,28 +65,24 @@ public class UserSessionManager {
 //		return null;
 //	}
 //
-//	public Operator getOperator() {
-//		String modulePref = getKeyOperatorPref();
-//		if (!TextUtils.isEmpty(modulePref)) {
-//			try {
-//				return new ObjectMapper().readValue(modulePref, Operator.class);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return null;
-//	}
+public Signup getUser() {
+	String modulePref = getUserPref();
+	if (!TextUtils.isEmpty(modulePref)) {
+		try {
+			return new ObjectMapper().readValue(modulePref, Signup.class);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	return null;
+}
 
-	private String getVehicleListPref() {
-		return pref.getString(KEY_VEHICLE_LIST, null);
+	private String getUserPref() {
+		return pref.getString(KEY_USER, null);
 	}
 
-	public String getPointName() {
-		return pref.getString(KEY_POINT, "");
-	}
-
-	private String getKeyOperatorPref() {
-		return pref.getString(KEY_OPERATOR, null);
+	public String getAuthToken() {
+		return pref.getString(KEY_AUTH_TOKEN, null);
 	}
 
 	public void clearPref() {
