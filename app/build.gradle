@@ -17,6 +17,22 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            v2SigningEnabled false
+        }
+        release {
+            storeFile file("release.keystore")
+            storePassword "android"
+            keyAlias "3hQGNbSJ9JkYXR6LmNvwNS0xNCIsImNyeylZmZlYZWF0ZXIiOiJ2aWJhcHAiOiJpb24iLCOC0hhbmdRlIjoiMjAx"
+            keyPassword "android"
+            v2SigningEnabled false
+        }
+    }
 }
 
 dependencies {
@@ -46,4 +62,8 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:support-vector-drawable:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
+    implementation 'com.github.glomadrian:CodeInput:1.1@aar'
 }
+apply plugin: 'com.google.gms.google-services'

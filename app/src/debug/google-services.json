@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1072246194339",
+    "firebase_url": "https://star-gang.firebaseio.com",
+    "project_id": "star-gang",
+    "storage_bucket": "star-gang.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072246194339:android:d728573566b66576",
+        "android_client_info": {
+          "package_name": "com.paidtocode.stargang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072246194339-6s5f26gpfqror2vva5dvsth79gh9m29r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paidtocode.stargang",
+            "certificate_hash": "6e0b34a56cef328d177d5ee35861d432a6e9dd2f"
+          }
+        },
+        {
+          "client_id": "1072246194339-7vf7n8d0925u22t5rjupptelhfrr190r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR2xzm1hxkxaDd-czbiPCOAernpNWj2pk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072246194339-7vf7n8d0925u22t5rjupptelhfrr190r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

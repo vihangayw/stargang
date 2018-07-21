@@ -24,6 +24,10 @@ public class UserSessionManager {
 	private static final String KEY_AUTH_TOKEN = "Token";
 	private static final String KEY_IS_LOGIN = "IsLogin";
 	private static final String KEY_USER = "User";
+	private static final String KEY_FIREBASE_UID = "FirebaseUID";
+	private static final String KEY_FIREBASE_NOTIFICATION_TOKEN = "FirebaseToken";
+	private static final String KEY_FIREBASE_AUTH_VERIFICATION_ID = "VerificationID";
+	private static final String KEY_FIREBASE_AUTH_RESEND_TOKEN = "ResendToken";
 
 
 	private final static UserSessionManager instance =
@@ -40,6 +44,32 @@ public class UserSessionManager {
 
 	public static UserSessionManager getInstance() {
 		return instance;
+	}
+
+	public void createFirebaseUid(String uID) {
+		editor.putString(KEY_FIREBASE_UID, uID);
+		// commit changes
+		editor.commit();
+	}
+
+	public void createAuthRetry(String vid, String retryToken) {
+		editor.putString(KEY_FIREBASE_AUTH_VERIFICATION_ID, vid);
+		editor.putString(KEY_FIREBASE_AUTH_RESEND_TOKEN, retryToken);
+		// commit changes
+		editor.commit();
+	}
+
+	public void createFirebaseToken(String token) {
+		editor.putString(KEY_FIREBASE_NOTIFICATION_TOKEN, token);
+		editor.commit();
+	}
+
+	public String getVerificationId() {
+		return pref.getString(KEY_FIREBASE_AUTH_VERIFICATION_ID, null);
+	}
+
+	public String getFirebaseToken() {
+		return pref.getString(KEY_FIREBASE_NOTIFICATION_TOKEN, null);
 	}
 
 	public void createUser(String json) {

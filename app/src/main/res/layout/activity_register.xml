@@ -31,9 +31,8 @@
             android:layout_below="@id/lbl_mobile_no"
             android:background="@drawable/edittext_line"
             android:paddingBottom="@dimen/_5sdp"
+            android:paddingStart="@dimen/_4sdp"
             android:fontFamily="@font/sanfranciscotext_medium"
-            android:gravity="center"
-            android:hint="+94 77123456"
             android:inputType="number"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,21 +24,21 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />
 
-        <EditText
+        <com.github.glomadrian.codeinputlib.CodeInput
             android:id="@+id/txt_mobile"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@id/lbl_mobile_no"
             android:layout_alignStart="@id/lbl_mobile_no"
             android:layout_below="@id/lbl_mobile_no"
             android:layout_marginTop="@dimen/_22sdp"
-            android:background="@drawable/edittext_line"
-            android:fontFamily="@font/sanfranciscotext_medium"
-            android:gravity="center"
-            android:hint="+94 77123456"
-            android:inputType="number"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+            android:textSize="@dimen/_15sdp"
+            app:codes="6"
+            app:hint_color="@color/colorLightGray"
+            app:hint_text="Pin code"
+            app:text_color="@color/colorBlack"
+            app:underline_color="@color/colorAccent"
+            app:underline_selected_color="@color/colorBlue" />
 
         <Button
             android:id="@+id/btn_submit"
