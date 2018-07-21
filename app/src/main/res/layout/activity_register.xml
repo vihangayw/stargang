@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.RegisterActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/lbl_mobile_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:text="@string/enter_your_mobile_number"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_15sdp" />
+
+        <EditText
+            android:id="@+id/txt_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/lbl_mobile_no"
+            android:layout_alignStart="@id/lbl_mobile_no"
+            android:layout_below="@id/lbl_mobile_no"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:gravity="center"
+            android:hint="+94 77123456"
+            android:inputType="number"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_15sdp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/lbl_mobile_no"
+            android:layout_alignStart="@id/lbl_mobile_no"
+            android:layout_below="@id/txt_mobile"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/btn_round_blue"
+            android:gravity="center"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/submit"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_15sdp" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
