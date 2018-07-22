@@ -13,6 +13,7 @@ public class APIURLHelper {
 	private static final String SUBSCRIBE = "/subscribe";
 	private static final String UNSUBSCRIBE = "/unsubscribe";
 	private static final String EDIT_PROFILE = "/editUser";
+	private static final String OLD_POST = "/oldPost";
 
 	public static String getRegisterURL() {
 		return BASE_URL.concat(REGISTER);
@@ -36,5 +37,9 @@ public class APIURLHelper {
 
 	public static String editProfileURL() {
 		return BASE_URL.concat(EDIT_PROFILE);
+	}
+
+	public static String getOldPostURL() {
+		return BASE_URL.concat(OLD_POST);
 	}
 }

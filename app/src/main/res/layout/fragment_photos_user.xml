@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrayEEE"
+    android:background="@color/colorLightGray"
     android:orientation="vertical"
-    android:paddingEnd="@dimen/_12sdp"
-    android:paddingStart="@dimen/_12sdp"
     tools:context=".ui.fragment.AboutUserFragment">
 
     <android.support.v7.widget.RecyclerView
@@ -31,10 +29,11 @@
         android:id="@+id/add_images"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:tint="@color/colorWhite"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="@dimen/_10sdp"
         android:src="@android:drawable/ic_input_add"
-        android:tint="@color/colorWhite"
-        app:rippleColor="@color/colorGrayEEE" />
+        app:fabSize="mini" />
 
 </FrameLayout>

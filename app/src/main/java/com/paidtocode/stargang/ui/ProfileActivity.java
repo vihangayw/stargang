@@ -31,7 +31,7 @@ import com.paidtocode.stargang.modal.UserType;
 import com.paidtocode.stargang.ui.adapter.ViewPagerAdapter;
 import com.paidtocode.stargang.ui.fragment.AboutUserFragment;
 import com.paidtocode.stargang.ui.fragment.EditUserFragment;
-import com.paidtocode.stargang.ui.fragment.SubscriptionFragment;
+import com.paidtocode.stargang.ui.fragment.PhotoFragment;
 import com.paidtocode.stargang.util.Constants;
 import com.paidtocode.stargang.util.UserSessionManager;
 import com.paidtocode.stargang.util.UtilityManager;
@@ -78,9 +78,8 @@ public class ProfileActivity extends AppCompatActivity {
 		ViewPager viewPager = findViewById(R.id.viewpager_main);
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		viewPager.setOffscreenPageLimit(isAdmin ? 3 : 2);
-		SubscriptionFragment subscriptionFragment = SubscriptionFragment.newInstance();
 		adapter.addFragment(AboutUserFragment.newInstance(), "About");
-		adapter.addFragment(subscriptionFragment, "Photos");
+		adapter.addFragment(PhotoFragment.newInstance(), "Photos");
 		if (isAdmin)
 			adapter.addFragment(EditUserFragment.newInstance(), "Edit");
 		viewPager.setAdapter(adapter);
