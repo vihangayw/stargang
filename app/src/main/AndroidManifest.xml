@@ -54,7 +54,17 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".ui.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.AddPostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".service.PostUploadService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    tools:context=".ui.AddPostActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar" />
+
+    <EditText
+        android:id="@+id/txt_caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:background="@drawable/edittext_line"
+        android:fontFamily="@font/sanfranciscotext_regular"
+        android:hint="@string/write_a_caption"
+        android:inputType="textMultiLine"
+        android:maxLength="256"
+        android:maxLines="5"
+        android:overScrollMode="always"
+        android:padding="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:scrollHorizontally="false"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_15sdp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/txt_caption"
+        android:background="@color/colorGrayEEE" />
+
+</RelativeLayout>

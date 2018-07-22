@@ -127,9 +127,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		Image image = images.get(0);
 		if (!TextUtils.isEmpty(image.getUrl())) {
 			Glide.with(context)
-					.load(user.getImage())
+					.load(image.getUrl())
 					.crossFade()
 					.diskCacheStrategy(DiskCacheStrategy.ALL)
+					.into(holder.img1);
+		} else {
+			Glide.with(context)
+					.load(R.drawable.image_placeholder)
 					.into(holder.img1);
 		}
 	}

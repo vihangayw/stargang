@@ -11,4 +11,6 @@ public interface PostRequestHelper {
 
 	void getMyPost(int page, int limit, APIHelper.PostManResponseListener listener);
 
+	void addPost(String caption, APIHelper.PostManResponseListener listener);
+
 }

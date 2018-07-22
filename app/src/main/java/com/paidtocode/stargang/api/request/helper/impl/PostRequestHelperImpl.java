@@ -5,6 +5,7 @@ import com.paidtocode.stargang.api.APIHelper;
 import com.paidtocode.stargang.api.APIURLHelper;
 import com.paidtocode.stargang.api.request.helper.PostRequestHelper;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorPostListResponseFactory;
+import com.paidtocode.stargang.api.response.factory.impl.AncestorPostResponseFactory;
 import com.paidtocode.stargang.util.UserSessionManager;
 
 import java.util.HashMap;
@@ -24,5 +25,15 @@ public class PostRequestHelperImpl implements PostRequestHelper {
 		paramMap.put("uid", UserSessionManager.getInstance().getUser().getId());
 		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorPostListResponseFactory(),
 				Request.Method.POST, APIURLHelper.getOldPostURL(), paramMap);
+	}
+
+	@Override
+	public void addPost(String caption, APIHelper.PostManResponseListener listener) {
+
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("ptext", caption.trim());
+		paramMap.put("uid", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendMultipartRequestPosts(listener, new AncestorPostResponseFactory(),
+				Request.Method.POST, APIURLHelper.addPostURL(), paramMap);
 	}
 }
