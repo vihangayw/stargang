@@ -1,5 +1,7 @@
 package com.paidtocode.stargang.modal;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -74,4 +76,13 @@ public class User implements Serializable {
 	public void setType(List<UserType> type) {
 		this.type = type;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof User)) return false;
+		User user = (User) o;
+		return TextUtils.equals(getId(), user.getId());
+	}
+
 }

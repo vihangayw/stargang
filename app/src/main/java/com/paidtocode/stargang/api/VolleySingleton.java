@@ -6,7 +6,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.paidtocode.stargang.NFCApplication;
+import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.util.UserSessionManager;
 
@@ -33,7 +33,7 @@ public class VolleySingleton {
 	private RequestQueue mRequestQueue;
 
 	private VolleySingleton() {
-		mRequestQueue = Volley.newRequestQueue(NFCApplication.getInstance());
+		mRequestQueue = Volley.newRequestQueue(StarGangApplication.getInstance());
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class VolleySingleton {
 	 */
 	private RequestQueue getRequestQueue() {
 		if (mRequestQueue == null) {
-			mRequestQueue = Volley.newRequestQueue(NFCApplication.getInstance());
+			mRequestQueue = Volley.newRequestQueue(StarGangApplication.getInstance());
 		}
 		return mRequestQueue;
 	}

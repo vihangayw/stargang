@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_6sdp"
-                android:fontFamily="@font/notosanssinhala_regular"
+                android:fontFamily="@font/sanfranciscotext_regular"
                 android:text="Already have an account?"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/_12sdp" />

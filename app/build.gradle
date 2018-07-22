@@ -65,5 +65,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.2'
     implementation 'com.github.glomadrian:CodeInput:1.1@aar'
+    implementation 'com.google.android.gms:play-services-plus:15.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,6 +1,7 @@
 package com.paidtocode.stargang.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -91,7 +92,6 @@ public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 				Glide.with(context)
 						.load(user.getImage())
 						.crossFade()
-						.placeholder(R.drawable.ic_user)
 						.diskCacheStrategy(DiskCacheStrategy.ALL)
 						.into(holder.imgUser);
 			} else {
@@ -99,6 +99,13 @@ public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 						.load(R.drawable.ic_user)
 						.crossFade()
 						.into(holder.imgUser);
+			}
+			if (user.isSubscribe()) {
+				holder.btnSubscribe.setText("Unsubscribe");
+				holder.btnSubscribe.setBackground(ContextCompat.getDrawable(context, R.drawable.btn_round_gray));
+			} else {
+				holder.btnSubscribe.setText("Subscribe");
+				holder.btnSubscribe.setBackground(ContextCompat.getDrawable(context, R.drawable.btn_round_green));
 			}
 		}
 	}

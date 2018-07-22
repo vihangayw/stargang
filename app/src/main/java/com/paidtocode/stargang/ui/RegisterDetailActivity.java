@@ -14,8 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.paidtocode.stargang.NFCApplication;
 import com.paidtocode.stargang.R;
+import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.APIHelper;
 import com.paidtocode.stargang.api.request.helper.impl.UserRequestHelperImpl;
 import com.paidtocode.stargang.api.response.Ancestor;
@@ -33,6 +33,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 	private TextView txtPassword;
 	private TextView txtConfirmPassword;
 	private Button btnSubmit;
+	private String mobileNo;
 
 	public static boolean isValidEmail(CharSequence target) {
 		return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
@@ -52,6 +53,9 @@ public class RegisterDetailActivity extends AppCompatActivity {
 		txtPassword = findViewById(R.id.txt_pw);
 		txtConfirmPassword = findViewById(R.id.txt_cpw);
 		btnSubmit = findViewById(R.id.btn_register);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null)
+			mobileNo = extras.getString("mobile_number");
 	}
 
 	private void setListeners() {
@@ -72,7 +76,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 							txtPassword.getText().toString().trim(),
 							txtConfirmPassword.getText().toString().trim(),
 							"2",
-							"00000000000"),
+							mobileNo),
 					new APIHelper.PostManResponseListener() {
 						@Override
 						public void onResponse(Ancestor ancestor) {
@@ -127,7 +131,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 			txtConfirmPassword.setError("Confirm Password");
 			return false;
 		}
-		if (TextUtils.equals(txtConfirmPassword.getText().toString().trim(),
+		if (!TextUtils.equals(txtConfirmPassword.getText().toString().trim(),
 				txtPassword.getText().toString().trim())) {
 			Toast.makeText(this, "Passwords does not match",
 					Toast.LENGTH_SHORT).show();
@@ -146,7 +150,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 
 	public boolean isNetworkConnected() {
 		ConnectivityManager cm =
-				(ConnectivityManager) NFCApplication.getInstance().getApplicationContext()
+				(ConnectivityManager) StarGangApplication.getInstance().getApplicationContext()
 						.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (cm != null) {
 			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

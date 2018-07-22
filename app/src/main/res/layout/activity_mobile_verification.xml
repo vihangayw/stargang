@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/sanfranciscotext_medium"
+            android:fontFamily="@font/sanfranciscotext_regular"
             android:paddingEnd="@dimen/_20sdp"
             android:paddingStart="@dimen/_20sdp"
             android:text="@string/enter_the_code"

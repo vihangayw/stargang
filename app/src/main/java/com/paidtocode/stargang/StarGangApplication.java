@@ -11,12 +11,12 @@ import com.paidtocode.stargang.listener.NetworkListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NFCApplication extends MultiDexApplication {
-	private static final String TAG = NFCApplication.class.getSimpleName();
-	private static NFCApplication application;
+public class StarGangApplication extends MultiDexApplication {
+	private static final String TAG = StarGangApplication.class.getSimpleName();
+	private static StarGangApplication application;
 	private final List<NetworkListener> networkListeners = new ArrayList<>();
 
-	public static NFCApplication getInstance() {
+	public static StarGangApplication getInstance() {
 		return application;
 	}
 

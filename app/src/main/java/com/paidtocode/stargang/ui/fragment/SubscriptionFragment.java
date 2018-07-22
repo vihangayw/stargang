@@ -1,6 +1,10 @@
 package com.paidtocode.stargang.ui.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,14 +17,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.paidtocode.stargang.R;
+import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.APIHelper;
 import com.paidtocode.stargang.api.request.helper.impl.UserRequestHelperImpl;
 import com.paidtocode.stargang.api.response.Ancestor;
 import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.api.response.UserListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
+import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserList;
 import com.paidtocode.stargang.ui.adapter.UserAdapter;
+import com.paidtocode.stargang.util.UtilityManager;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +45,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 	private RecyclerView recyclerView;
 	private UserAdapter userAdapter;
+	private AlertDialog alertDialog;
 
 	public SubscriptionFragment() {
 		// Required empty public constructor
@@ -153,6 +163,143 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 
 	@Override
 	public void onComponentClick(View itemView, int position) {
+		if (userAdapter != null && userAdapter.getItemCount() > position) {
+			final User user = userAdapter.getUsers().get(position);
+			if (user != null) {
+				proceedSubs(user);
+			}
+		}
+	}
 
+	private void proceedSubs(final User user) {
+		if (!user.isSubscribe()) {
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					doSubscribe(user);
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			alertDialog = UtilityManager.showAlert(getContext(), null,
+					"Do you want to subscribe " + user.getFullName() + "?",
+					"Yes", "No", false,
+					listenerYes, listener);
+		} else {
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					doUnsubscribe(user);
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			alertDialog = UtilityManager.showAlert(getContext(), null,
+					"Do you want to unsubscribe " + user.getFullName() + "?",
+					"Yes", "No", false,
+					listenerYes, listener);
+		}
+	}
+
+	private void doUnsubscribe(final User user) {
+		if (checkNetwork())
+			new UserRequestHelperImpl().doUnsubscribe(user, new APIHelper.PostManResponseListener() {
+				@Override
+				public void onResponse(Ancestor ancestor) {
+					if (ancestor.getStatus()) {
+						if (getActivity() != null)
+							Toast.makeText(getActivity(), "Request Sent", Toast.LENGTH_SHORT).show();
+						updateUser(user);
+					} else {
+						if (getActivity() != null)
+							Toast.makeText(getActivity(), "Request Failed", Toast.LENGTH_SHORT).show();
+					}
+				}
+
+				@Override
+				public void onError(Error error) {
+					if (error != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(getActivity(),
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
+	}
+
+	private void doSubscribe(final User user) {
+		if (checkNetwork())
+			new UserRequestHelperImpl().doSubscribe(user, new APIHelper.PostManResponseListener() {
+				@Override
+				public void onResponse(Ancestor ancestor) {
+					if (ancestor.getStatus()) {
+						if (getActivity() != null)
+							Toast.makeText(getActivity(), "Request Sent", Toast.LENGTH_SHORT).show();
+						updateUser(user);
+					} else {
+						if (getActivity() != null)
+							Toast.makeText(getActivity(), "Request Failed", Toast.LENGTH_SHORT).show();
+					}
+				}
+
+				@Override
+				public void onError(Error error) {
+					if (error != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(getActivity(),
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
+	}
+
+	private void updateUser(User user) {
+		if (userAdapter != null) {
+			List<User> users = userAdapter.getUsers();
+			if (user != null) {
+				for (int i = 0; i < users.size(); i++) {
+					int indexOf = users.indexOf(user);
+					if (indexOf != -1) {
+						User userSel = users.get(indexOf);
+						userSel.setSubscribe(!user.isSubscribe());
+						userAdapter.notifyItemChanged(indexOf);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	public boolean checkNetwork() {
+		if (isNetworkConnected()) {
+			return true;
+		}
+		if (getActivity() != null)
+			Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+		return false;
+	}
+
+	public boolean isNetworkConnected() {
+		ConnectivityManager cm =
+				(ConnectivityManager) StarGangApplication.getInstance().getApplicationContext()
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (cm != null) {
+			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+			return activeNetwork != null &&
+					activeNetwork.isConnectedOrConnecting();
+		}
+		return false;
 	}
 }

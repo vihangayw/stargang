@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paidtocode.stargang.BuildConfig;
-import com.paidtocode.stargang.NFCApplication;
+import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.modal.Signup;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class UserSessionManager {
 
 
 	private final static UserSessionManager instance =
-			new UserSessionManager(NFCApplication.getInstance().getApplicationContext());
+			new UserSessionManager(StarGangApplication.getInstance().getApplicationContext());
 
 	private final SharedPreferences pref;
 	private final SharedPreferences.Editor editor;

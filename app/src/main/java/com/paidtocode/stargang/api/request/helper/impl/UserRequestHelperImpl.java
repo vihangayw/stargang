@@ -8,6 +8,7 @@ import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupListRespo
 import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorUserListResponseFactory;
 import com.paidtocode.stargang.modal.Register;
+import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.util.UserSessionManager;
 
 import java.util.HashMap;
@@ -49,5 +50,23 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
 		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorUserListResponseFactory(),
 				Request.Method.POST, APIURLHelper.getAllUsers(), paramMap);
+	}
+
+	@Override
+	public void doSubscribe(User user, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("receiveID", user.getId());
+		paramMap.put("sendID", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorUserListResponseFactory(),
+				Request.Method.POST, APIURLHelper.subscribeURL(), paramMap);
+	}
+
+	@Override
+	public void doUnsubscribe(User user, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("receiveID", user.getId());
+		paramMap.put("sendID", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorUserListResponseFactory(),
+				Request.Method.POST, APIURLHelper.unsubscribeURL(), paramMap);
 	}
 }

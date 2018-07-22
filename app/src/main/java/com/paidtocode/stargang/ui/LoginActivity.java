@@ -14,8 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.paidtocode.stargang.NFCApplication;
 import com.paidtocode.stargang.R;
+import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.APIHelper;
 import com.paidtocode.stargang.api.request.helper.impl.UserRequestHelperImpl;
 import com.paidtocode.stargang.api.response.Ancestor;
@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
 
 	public boolean isNetworkConnected() {
 		ConnectivityManager cm =
-				(ConnectivityManager) NFCApplication.getInstance().getApplicationContext()
+				(ConnectivityManager) StarGangApplication.getInstance().getApplicationContext()
 						.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (cm != null) {
 			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

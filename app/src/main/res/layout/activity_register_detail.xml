@@ -17,7 +17,7 @@
             android:id="@+id/lbl_mobile_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/notosanssinhala_regular"
+            android:fontFamily="@font/sanfranciscotext_regular"
             android:text="Email Address"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_email"
             android:layout_marginTop="@dimen/_6sdp"
-            android:fontFamily="@font/notosanssinhala_regular"
+            android:fontFamily="@font/sanfranciscotext_regular"
             android:text="Password"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_pw"
             android:layout_marginTop="@dimen/_6sdp"
-            android:fontFamily="@font/notosanssinhala_regular"
+            android:fontFamily="@font/sanfranciscotext_regular"
             android:text="Confirm Password"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />
