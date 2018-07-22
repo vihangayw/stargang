@@ -17,6 +17,8 @@ public interface UserRequestHelper {
 
 	void logout(APIHelper.PostManResponseListener listener);
 
+	void changePW(String oldPW, String newPW, APIHelper.PostManResponseListener listener);
+
 	void getUserList(int page, int limit, APIHelper.PostManResponseListener listener);
 
 	void getUserProfile(APIHelper.PostManResponseListener listener);

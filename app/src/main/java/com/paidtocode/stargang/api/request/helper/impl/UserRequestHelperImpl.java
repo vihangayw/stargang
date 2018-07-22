@@ -53,6 +53,16 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 	}
 
 	@Override
+	public void changePW(String oldPW, String newPW, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("newPassword", newPW);
+		paramMap.put("oldPassword", oldPW);
+		paramMap.put("userID", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorObecjtResponseFactory(),
+				Request.Method.POST, APIURLHelper.getPasswordResetURL(), paramMap);
+	}
+
+	@Override
 	public void getUserList(int page, int limit, APIHelper.PostManResponseListener listener) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("users", String.valueOf(limit));

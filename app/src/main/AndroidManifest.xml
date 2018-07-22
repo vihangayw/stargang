@@ -68,12 +68,15 @@
             android:name=".ui.ImagePreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.Black" />
+        <activity
+            android:name=".ui.PasswordResetActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".service.PostUploadService"
             android:enabled="true"
             android:exported="true" />
-
     </application>
 
 </manifest>

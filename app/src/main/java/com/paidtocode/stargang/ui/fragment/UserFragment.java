@@ -1,8 +1,12 @@
 package com.paidtocode.stargang.ui.fragment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,6 +29,7 @@ import com.paidtocode.stargang.api.response.Ancestor;
 import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.modal.Signup;
 import com.paidtocode.stargang.modal.UserType;
+import com.paidtocode.stargang.ui.PasswordResetActivity;
 import com.paidtocode.stargang.ui.ProfileActivity;
 import com.paidtocode.stargang.util.UserSessionManager;
 import com.paidtocode.stargang.util.UtilityManager;
@@ -80,7 +85,8 @@ public class UserFragment extends Fragment {
 		btnChangePw.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-
+				if (getActivity() == null) return;
+				startActivity(new Intent(getActivity(), PasswordResetActivity.class));
 			}
 		});
 		btnHelp.setOnClickListener(new View.OnClickListener() {
@@ -121,28 +127,33 @@ public class UserFragment extends Fragment {
 	}
 
 	private void logout() {
-		new UserRequestHelperImpl().logout(new APIHelper.PostManResponseListener() {
-			@Override
-			public void onResponse(Ancestor ancestor) {
-				StarGangApplication.getInstance().restartApplication(true);
-			}
+		if (checkNetwork() && getContext() != null) {
 
-			@Override
-			public void onError(Error error) {
-				if (getActivity() == null) {
+			final ProgressDialog progressDialog = UtilityManager.showProgressAlert(getContext(), getString(R.string.wait));
+			new UserRequestHelperImpl().logout(new APIHelper.PostManResponseListener() {
+				@Override
+				public void onResponse(Ancestor ancestor) {
+					progressDialog.dismiss();
 					StarGangApplication.getInstance().restartApplication(true);
-					return;
-				}
-				if (error != null) {
-					if (!TextUtils.isEmpty(error.getMessage())) {
-						Toast.makeText(getActivity(),
-								error.getMessage(), Toast.LENGTH_SHORT).show();
-					}
 				}
 
-				StarGangApplication.getInstance().restartApplication(true);
-			}
-		});
+				@Override
+				public void onError(Error error) {
+					progressDialog.dismiss();
+					if (getActivity() == null) {
+						StarGangApplication.getInstance().restartApplication(true);
+						return;
+					}
+					if (error != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(getActivity(),
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+					StarGangApplication.getInstance().restartApplication(true);
+				}
+			});
+		}
 	}
 
 	private void initViews(View view) {
@@ -177,5 +188,26 @@ public class UserFragment extends Fragment {
 			}
 
 		}
+	}
+
+	public boolean checkNetwork() {
+		if (isNetworkConnected()) {
+			return true;
+		}
+		if (getContext() != null)
+			Toast.makeText(getContext(), getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+		return false;
+	}
+
+	public boolean isNetworkConnected() {
+		ConnectivityManager cm =
+				(ConnectivityManager) StarGangApplication.getInstance().getApplicationContext()
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (cm != null) {
+			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+			return activeNetwork != null &&
+					activeNetwork.isConnectedOrConnecting();
+		}
+		return false;
 	}
 }

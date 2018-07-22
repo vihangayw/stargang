@@ -122,6 +122,7 @@ public class EditUserFragment extends Fragment {
 						@Override
 						public void onError(Error error) {
 							progressDialog.dismiss();
+							if (getContext() == null) return;
 							if (error != null) {
 								if (!TextUtils.isEmpty(error.getMessage())) {
 									Toast.makeText(getContext(),

@@ -63,7 +63,7 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 
 	private static final int LIMIT = 15;
 	private final int REQ_IMAGE_PICKER = 461;
-	private final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 12;
+	private final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 2;
 	private int page;
 	private TextView txtInfo;
 	private FloatingActionButton fab;
@@ -196,12 +196,12 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				requirePermissions();
+				requirePermission();
 			}
 		});
 	}
 
-	private void requirePermissions() {
+	private void requirePermission() {
 		if (getActivity() == null) return;
 		if (ContextCompat.checkSelfPermission(getActivity(),
 				Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -215,11 +215,11 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 						MY_PERMISSIONS_REQUEST_READ_STORAGE);
 			}
 		} else {
-			openBottomSheet();
+			openBottomSheets();
 		}
 	}
 
-	private void openBottomSheet() {
+	private void openBottomSheets() {
 		ImagePicker.create(this)
 				.returnAfterFirst(false)
 				.folderMode(true) // folder mode (false by default)
@@ -299,7 +299,7 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 				// If request is cancelled, the result arrays are empty.
 				if (grantResults.length > 0
 						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					openBottomSheet();
+					openBottomSheets();
 				} else {
 					showRequestPermissionAlert();
 				}

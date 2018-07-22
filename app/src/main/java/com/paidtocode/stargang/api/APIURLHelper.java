@@ -18,6 +18,7 @@ public class APIURLHelper {
 	private static final String ADD_POST = "/addPost";
 	private static final String LOGOUT = "/logOut";
 	private static final String USER_PROFILE = "/userInfo";
+	private static final String RESET_PW = "/resetPassword";
 
 	public static String getRegisterURL() {
 		return BASE_URL.concat(REGISTER);
@@ -57,6 +58,10 @@ public class APIURLHelper {
 
 	public static String getUserProfileURL() {
 		return BASE_URL.concat(USER_PROFILE);
+	}
+
+	public static String getPasswordResetURL() {
+		return BASE_URL.concat(RESET_PW);
 	}
 
 	public static String getLogoutURL() {
