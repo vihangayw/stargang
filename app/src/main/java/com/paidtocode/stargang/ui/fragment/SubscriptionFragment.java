@@ -227,6 +227,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 
 				@Override
 				public void onError(Error error) {
+					if (getActivity() == null) return;
 					if (error != null) {
 						if (!TextUtils.isEmpty(error.getMessage())) {
 							Toast.makeText(getActivity(),
@@ -254,6 +255,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 
 				@Override
 				public void onError(Error error) {
+					if (getActivity() == null) return;
 					if (error != null) {
 						if (!TextUtils.isEmpty(error.getMessage())) {
 							Toast.makeText(getActivity(),

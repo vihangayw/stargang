@@ -15,7 +15,11 @@ public interface UserRequestHelper {
 
 	void loginUser(String email, String pw, APIHelper.PostManResponseListener listener);
 
+	void logout(APIHelper.PostManResponseListener listener);
+
 	void getUserList(int page, int limit, APIHelper.PostManResponseListener listener);
+
+	void getUserProfile(APIHelper.PostManResponseListener listener);
 
 	void doSubscribe(User user, APIHelper.PostManResponseListener listener);
 

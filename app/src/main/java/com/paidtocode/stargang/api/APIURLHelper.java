@@ -14,7 +14,10 @@ public class APIURLHelper {
 	private static final String UNSUBSCRIBE = "/unsubscribe";
 	private static final String EDIT_PROFILE = "/editUser";
 	private static final String OLD_POST = "/oldPost";
+	private static final String WALL = "/wall";
 	private static final String ADD_POST = "/addPost";
+	private static final String LOGOUT = "/logOut";
+	private static final String USER_PROFILE = "/userInfo";
 
 	public static String getRegisterURL() {
 		return BASE_URL.concat(REGISTER);
@@ -46,5 +49,17 @@ public class APIURLHelper {
 
 	public static String getOldPostURL() {
 		return BASE_URL.concat(OLD_POST);
+	}
+
+	public static String getWallPostsURL() {
+		return BASE_URL.concat(WALL);
+	}
+
+	public static String getUserProfileURL() {
+		return BASE_URL.concat(USER_PROFILE);
+	}
+
+	public static String getLogoutURL() {
+		return BASE_URL.concat(LOGOUT);
 	}
 }

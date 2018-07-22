@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Constants {
 
-	public static final String BASE_URL = "http://devz.ceffectz.com/parkme_owner";
-	public static final String BASE_URL_IMAGE = BASE_URL + "/uploads/vehicle/";
+	public static final String ACTION_WALL = "com.paidtocode.stargang.ui.WALL";
+	public static final String ACTION_POST = "com.paidtocode.stargang.ui.POST";
 
 	public static Bitmap cover = null;
 	public static Bitmap profilePic = null;

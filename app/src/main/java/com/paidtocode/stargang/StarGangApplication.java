@@ -7,6 +7,7 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.paidtocode.stargang.listener.NetworkListener;
+import com.paidtocode.stargang.util.UserSessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,10 @@ public class StarGangApplication extends MultiDexApplication {
 		return versionName;
 	}
 
-	public void restartApplication() {
+	public void restartApplication(boolean logout) {
+		if (logout) {
+			UserSessionManager.getInstance().logout();
+		}
 		Intent i = getBaseContext().getPackageManager()
 				.getLaunchIntentForPackage(getBaseContext().getPackageName());
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP

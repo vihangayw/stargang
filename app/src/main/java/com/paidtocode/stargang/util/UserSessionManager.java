@@ -3,13 +3,13 @@ package com.paidtocode.stargang.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paidtocode.stargang.BuildConfig;
 import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.modal.Signup;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -21,8 +21,6 @@ import java.util.Locale;
 public class UserSessionManager {
 
 	private static final String PREF_NAME = BuildConfig.APPLICATION_ID + ".pref";
-	private static final String KEY_VEHICLE_LIST = "VehicleTypes";
-	private static final String KEY_OPERATOR = "Operator";
 	private static final String KEY_EXP = "EXP";
 	private static final String KEY_AUTH_TOKEN = "Token";
 	private static final String KEY_IS_LOGIN = "IsLogin";
@@ -31,7 +29,6 @@ public class UserSessionManager {
 	private static final String KEY_FIREBASE_NOTIFICATION_TOKEN = "FirebaseToken";
 	private static final String KEY_FIREBASE_AUTH_VERIFICATION_ID = "VerificationID";
 	private static final String KEY_FIREBASE_AUTH_RESEND_TOKEN = "ResendToken";
-
 
 	private final static UserSessionManager instance =
 			new UserSessionManager(StarGangApplication.getInstance().getApplicationContext());
@@ -96,25 +93,14 @@ public class UserSessionManager {
 		editor.commit();
 	}
 
-
-	//	public VehicleTypeList getVehicleList() {
-//		String modulePref = getVehicleListPref();
-//		if (!TextUtils.isEmpty(modulePref)) {
-//			try {
-//				return new ObjectMapper().readValue(modulePref, VehicleTypeList.class);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return null;
-//	}
-//
 	public Signup getUser() {
 		String modulePref = getUserPref();
 		if (!TextUtils.isEmpty(modulePref)) {
 			try {
-				return new ObjectMapper().readValue(modulePref, Signup.class);
-			} catch (IOException e) {
+				Signup signup = new ObjectMapper().readValue(modulePref, Signup.class);
+				Log.d("SessionManager", "id: " + signup.getId());
+				return signup;
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -126,7 +112,9 @@ public class UserSessionManager {
 	}
 
 	public String getAuthToken() {
-		return pref.getString(KEY_AUTH_TOKEN, null);
+		String string = pref.getString(KEY_AUTH_TOKEN, null);
+		Log.d("SessionManager", "tkn: " + string);
+		return string;
 	}
 
 	public boolean isLogin() {
@@ -135,6 +123,17 @@ public class UserSessionManager {
 
 	public void clearPref() {
 		editor.clear();
+		editor.commit();
+	}
+
+	public void logout() {
+		editor.remove(KEY_AUTH_TOKEN);
+		editor.remove(KEY_IS_LOGIN);
+		editor.remove(KEY_USER);
+		editor.remove(KEY_FIREBASE_UID);
+		editor.remove(KEY_FIREBASE_NOTIFICATION_TOKEN);
+		editor.remove(KEY_FIREBASE_AUTH_VERIFICATION_ID);
+		editor.remove(KEY_FIREBASE_AUTH_RESEND_TOKEN);
 		editor.commit();
 	}
 

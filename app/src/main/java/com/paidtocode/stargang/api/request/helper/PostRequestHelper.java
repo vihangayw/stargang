@@ -13,4 +13,6 @@ public interface PostRequestHelper {
 
 	void addPost(String caption, APIHelper.PostManResponseListener listener);
 
+	void getWallPosts(int page, int limit, APIHelper.PostManResponseListener listener);
+
 }

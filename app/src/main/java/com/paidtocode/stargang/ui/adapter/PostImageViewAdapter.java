@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.paidtocode.stargang.R;
-import com.paidtocode.stargang.modal.Image;
 
 import java.util.List;
 
@@ -19,17 +18,17 @@ public class PostImageViewAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 	private static final int VIEW_TYPE_NOTIFICATION = 1;
 	private final OnComponentClickListener listener;
-	private final List<Image> images;
+	private final List<String> images;
 	private Context context;
 
-	public PostImageViewAdapter(List<Image> images, OnComponentClickListener listener, Context context) {
+	public PostImageViewAdapter(List<String> images, OnComponentClickListener listener, Context context) {
 		this.context = context;
 		this.images = images;
 		this.listener = listener;
 	}
 
 
-	public Image getImage(int position) {
+	public String getImage(int position) {
 		return images.get(position);
 	}
 
@@ -56,10 +55,10 @@ public class PostImageViewAdapter extends RecyclerView.Adapter<RecyclerView.View
 	}
 
 	private void bindViewBranch(final BitmapViewHolder holder, int position) {
-		Image image = images.get(position);
-		if (image != null && !TextUtils.isEmpty(image.getUrl())) {
+		String image = images.get(position);
+		if (image != null && !TextUtils.isEmpty(image)) {
 			Glide.with(context)
-					.load(image.getUrl().trim())
+					.load(image.trim())
 					.centerCrop()
 					.diskCacheStrategy(DiskCacheStrategy.ALL)
 					.into(holder.image);

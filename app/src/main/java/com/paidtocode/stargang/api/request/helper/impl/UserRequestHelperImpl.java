@@ -4,6 +4,7 @@ import com.android.volley.Request;
 import com.paidtocode.stargang.api.APIHelper;
 import com.paidtocode.stargang.api.APIURLHelper;
 import com.paidtocode.stargang.api.request.helper.UserRequestHelper;
+import com.paidtocode.stargang.api.response.factory.impl.AncestorObecjtResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupListResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorUserListResponseFactory;
@@ -44,6 +45,14 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 	}
 
 	@Override
+	public void logout(APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("userID", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorObecjtResponseFactory(),
+				Request.Method.POST, APIURLHelper.getLogoutURL(), paramMap);
+	}
+
+	@Override
 	public void getUserList(int page, int limit, APIHelper.PostManResponseListener listener) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("users", String.valueOf(limit));
@@ -51,6 +60,14 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
 		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorUserListResponseFactory(),
 				Request.Method.POST, APIURLHelper.getAllUsers(), paramMap);
+	}
+
+	@Override
+	public void getUserProfile(APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("id", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorSignupResponseFactory(),
+				Request.Method.POST, APIURLHelper.getUserProfileURL(), paramMap);
 	}
 
 	@Override

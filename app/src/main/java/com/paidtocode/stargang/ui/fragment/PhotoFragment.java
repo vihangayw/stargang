@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.paidtocode.stargang.util.Constants.ACTION_POST;
 import static com.paidtocode.stargang.util.Constants.bitmaps;
 
 /**
@@ -267,6 +268,7 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 			switch (itemView.getId()) {
 				case R.id.txt_more:
 					Intent intent = new Intent(getActivity(), PostImagesActivity.class);
+					intent.setAction(ACTION_POST);
 					Bundle bundle = new Bundle();
 					bundle.putSerializable("post", adapter.getPosts().get(position));
 					intent.putExtras(bundle);
