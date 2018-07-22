@@ -8,6 +8,7 @@ import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupListRespo
 import com.paidtocode.stargang.api.response.factory.impl.AncestorSignupResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorUserListResponseFactory;
 import com.paidtocode.stargang.modal.Register;
+import com.paidtocode.stargang.modal.Signup;
 import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.util.UserSessionManager;
 
@@ -69,4 +70,20 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorUserListResponseFactory(),
 				Request.Method.POST, APIURLHelper.unsubscribeURL(), paramMap);
 	}
+
+	@Override
+	public void editProfile(String name, String info, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		Signup user = UserSessionManager.getInstance().getUser();
+		paramMap.put("name", name);
+		paramMap.put("info", info);
+		paramMap.put("birthDay", "2001-01-01");
+		paramMap.put("email", user.getEmail());
+		paramMap.put("uid", user.getId());
+
+		APIHelper.getInstance().sendMultipartRequestProfile(listener, new AncestorSignupResponseFactory(),
+				Request.Method.POST, APIURLHelper.editProfileURL(), paramMap);
+	}
+
+
 }

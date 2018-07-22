@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/home/vihanga/Downloads/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/social/ic_person_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/home/vihanga/Downloads/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/toggle/ic_star_border_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -33,9 +33,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_user" />
+                                      <entry key="outputName" value="ic_star_not_fill" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="ebebe7" />
+                                      <entry key="themeColor" value="ffffe7" />
                                     </map>
                                   </option>
                                 </PersistentState>

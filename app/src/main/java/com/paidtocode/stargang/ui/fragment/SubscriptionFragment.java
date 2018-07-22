@@ -65,11 +65,6 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
@@ -113,42 +108,46 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 	}
 
 	private void loadMore(int page) {
-		new UserRequestHelperImpl().getUserList(page, LIMIT, new APIHelper.PostManResponseListener() {
-			@Override
-			public void onResponse(Ancestor ancestor) {
-				if (userAdapter == null) return;
-				removeProgress();
-				if (ancestor instanceof UserListResponse) {
-					UserList data = ((UserListResponse) ancestor).getData();
-					if (data != null && data.getUsers() != null) {
-						userAdapter.getUsers().addAll(data.getUsers());
-						userAdapter.notifyDataSetChanged();
+		if (checkNetwork())
+			new UserRequestHelperImpl().getUserList(page, LIMIT, new APIHelper.PostManResponseListener() {
+				@Override
+				public void onResponse(Ancestor ancestor) {
+					if (userAdapter == null) return;
+					removeProgress();
+					if (ancestor instanceof UserListResponse) {
+						UserList data = ((UserListResponse) ancestor).getData();
+						if (data != null && data.getUsers() != null) {
+							userAdapter.getUsers().addAll(data.getUsers());
+							userAdapter.notifyDataSetChanged();
+						}
 					}
 				}
-			}
 
-			private void removeProgress() {
-				if (userAdapter.getItemCount() > 0
-						&& userAdapter.getUsers().get(userAdapter.getItemCount() - 1) == null) {
-					userAdapter.getUsers().remove(userAdapter.getItemCount() - 1);
-					userAdapter.notifyItemRemoved(userAdapter.getItemCount() - 1);
-				}
-			}
-
-
-			@Override
-			public void onError(Error error) {
-				SubscriptionFragment.this.page--;
-				if (userAdapter == null) return;
-				removeProgress();
-				if (getActivity() != null) {
-					if (!TextUtils.isEmpty(error.getMessage())) {
-						Toast.makeText(getActivity(),
-								error.getMessage(), Toast.LENGTH_SHORT).show();
+				private void removeProgress() {
+					if (userAdapter.getItemCount() > 0
+							&& userAdapter.getUsers().get(userAdapter.getItemCount() - 1) == null) {
+						userAdapter.getUsers().remove(userAdapter.getItemCount() - 1);
+						userAdapter.notifyItemRemoved(userAdapter.getItemCount() - 1);
 					}
 				}
-			}
-		});
+
+
+				@Override
+				public void onError(Error error) {
+					SubscriptionFragment.this.page--;
+					if (userAdapter == null) return;
+					removeProgress();
+					if (getActivity() != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(getActivity(),
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
+		else {
+			SubscriptionFragment.this.page--;
+		}
 	}
 
 	@Override

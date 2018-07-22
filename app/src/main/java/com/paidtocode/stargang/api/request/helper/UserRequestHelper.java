@@ -20,4 +20,6 @@ public interface UserRequestHelper {
 	void doSubscribe(User user, APIHelper.PostManResponseListener listener);
 
 	void doUnsubscribe(User user, APIHelper.PostManResponseListener listener);
+
+	void editProfile(String name, String info, APIHelper.PostManResponseListener listener);
 }

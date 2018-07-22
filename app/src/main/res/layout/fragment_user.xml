@@ -1,13 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.fragment.UserFragment">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="@dimen/_30sdp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingStart="@dimen/_12sdp"
+        android:paddingTop="@dimen/_30sdp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_user"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_user"
+            app:civ_circle_background_color="@color/colorLightGray" />
+
+        <RelativeLayout
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toEndOf="@id/img_user">
+
+            <TextView
+                android:id="@+id/txt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/sanfranciscotext_medium"
+                android:maxLines="1"
+                android:text="@string/app_name"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/_15sdp" />
+
+            <TextView
+                android:id="@+id/btn_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_name"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:fontFamily="@font/sanfranciscotext_regular"
+                android:text="View and Edit Profile"
+                android:textColor="@color/colorGrayEEE"
+                android:textSize="@dimen/_11sdp" />
+
+            <ImageView
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_alignTop="@id/btn_sub"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="-1dp"
+                android:layout_toEndOf="@id/btn_sub"
+                android:src="@drawable/ic_edit"
+                android:tint="@color/colorGrayEEE" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_below="@id/header">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/btn_change_pw"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_48sdp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/sanfranciscotext_regular"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:text="Change Password"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_13sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorGrayEEE" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_help_sup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_48sdp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/sanfranciscotext_regular"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:text="Help and Support"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_13sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorGrayEEE" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_48sdp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/sanfranciscotext_regular"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:text="Version"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/txt_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/sanfranciscotext_regular"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:text="1.0.0"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_13sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/colorGrayEEE" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

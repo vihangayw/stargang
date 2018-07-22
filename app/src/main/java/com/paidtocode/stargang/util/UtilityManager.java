@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paidtocode.stargang.R;
@@ -30,6 +31,14 @@ public class UtilityManager {
 		}
 	}
 
+
+	public static void showSnackBarWithAction(String msg, int duration, String actionMsg,
+	                                          CoordinatorLayout coordinatorLayout, View.OnClickListener listener) {
+		Snackbar snackbar = Snackbar
+				.make(coordinatorLayout, msg, duration)
+				.setAction(actionMsg, listener);
+		snackbar.show();
+	}
 	public static AlertDialog showAlert(final Context context, String title, String msg, String btnPositive,
 	                                    String btnNegative, boolean cancelable,
 	                                    DialogInterface.OnClickListener positiveClick,

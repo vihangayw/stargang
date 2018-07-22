@@ -74,7 +74,7 @@ public class VolleySingleton {
 		//getRequestQueue().getCache().clear();
 		if (/*CommonUtils.isInternetAvailable()*/true) {
 			req.setRetryPolicy(new DefaultRetryPolicy(
-					30 * 1000, 0,
+					60 * 1000, 0,
 					DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 			req.setTag(TAG);
 
