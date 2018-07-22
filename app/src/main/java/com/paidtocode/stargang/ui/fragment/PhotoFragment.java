@@ -21,6 +21,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -71,6 +72,7 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 	private RecyclerView recyclerView;
 	private CoordinatorLayout coordinator;
+	private SwipeRefreshLayout refreshLayout;
 
 	public PhotoFragment() {
 		// Required empty public constructor
@@ -107,6 +109,13 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	}
 
 	private void initViews(View view) {
+		refreshLayout = view.findViewById(R.id.swipe_refresh);
+		refreshLayout.setRefreshing(false);
+		if (getContext() != null)
+			refreshLayout.setColorSchemeColors(
+					ContextCompat.getColor(getContext(), R.color.colorPrimary),
+					ContextCompat.getColor(getContext(), R.color.colorPrimaryDark)
+			);
 		fab = view.findViewById(R.id.add_images);
 		txtInfo = view.findViewById(R.id.txt_info);
 		coordinator = view.findViewById(R.id.coordinator);
@@ -136,10 +145,11 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	}
 
 	private void loadMore(final int page) {
-		if (checkNetwork())
+		if (checkNetwork()) {
 			new PostRequestHelperImpl().getMyPost(page, LIMIT, new APIHelper.PostManResponseListener() {
 				@Override
 				public void onResponse(Ancestor ancestor) {
+					refreshLayout.setRefreshing(false);
 					if (adapter == null) return;
 					removeProgress();
 					if (ancestor instanceof PostListResponse) {
@@ -168,6 +178,7 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 
 				@Override
 				public void onError(Error error) {
+					refreshLayout.setRefreshing(false);
 					PhotoFragment.this.page--;
 					if (adapter == null) return;
 					removeProgress();
@@ -179,7 +190,8 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 					}
 				}
 			});
-		else {
+		} else {
+			refreshLayout.setRefreshing(false);
 			this.page--;
 			if (page == 0 && adapter != null && adapter.getPosts().isEmpty()) {
 				txtInfo.setText(R.string.no_network);
@@ -197,6 +209,19 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 			@Override
 			public void onClick(View view) {
 				requirePermission();
+			}
+		});
+		refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				refreshLayout.setRefreshing(true);
+				endlessRecyclerViewScrollListener.resetState();
+				PhotoFragment.this.page = 0;
+				if (adapter != null) {
+					adapter.getPosts().clear();
+					adapter.notifyDataSetChanged();
+					loadMore(++PhotoFragment.this.page);
+				}
 			}
 		});
 	}
