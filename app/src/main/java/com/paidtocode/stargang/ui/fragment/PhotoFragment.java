@@ -41,6 +41,8 @@ import com.paidtocode.stargang.api.response.PostListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
 import com.paidtocode.stargang.modal.Post;
 import com.paidtocode.stargang.ui.AddPostActivity;
+import com.paidtocode.stargang.ui.ImagePreviewActivity;
+import com.paidtocode.stargang.ui.PostImagesActivity;
 import com.paidtocode.stargang.ui.adapter.PhotoAdapter;
 import com.paidtocode.stargang.util.UtilityManager;
 
@@ -246,12 +248,11 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 							try {
 								Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
 								bitmaps.add(bitmap);
-								startActivity(new Intent(getActivity(), AddPostActivity.class));
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
 						}
-
+						startActivity(new Intent(getActivity(), AddPostActivity.class));
 					}
 				}
 				break;
@@ -261,7 +262,31 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 
 	@Override
 	public void onComponentClick(View itemView, int position) {
-
+		if (getActivity() == null) return;
+		if (adapter != null && adapter.getPosts().size() > position)
+			switch (itemView.getId()) {
+				case R.id.txt_more:
+					Intent intent = new Intent(getActivity(), PostImagesActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("post", adapter.getPosts().get(position));
+					intent.putExtras(bundle);
+					startActivity(intent);
+					break;
+				case R.id.img_1:
+					intent = new Intent(getActivity(), ImagePreviewActivity.class);
+					bundle = new Bundle();
+					bundle.putSerializable("url", adapter.getPosts().get(position).getImages().get(0).getUrl());
+					intent.putExtras(bundle);
+					startActivity(intent);
+					break;
+				case R.id.img_2:
+					intent = new Intent(getActivity(), ImagePreviewActivity.class);
+					bundle = new Bundle();
+					bundle.putSerializable("url", adapter.getPosts().get(position).getImages().get(1).getUrl());
+					intent.putExtras(bundle);
+					startActivity(intent);
+					break;
+			}
 	}
 
 	@Override

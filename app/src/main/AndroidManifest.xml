@@ -60,11 +60,20 @@
             android:name=".ui.AddPostActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.PostImagesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.ImagePreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Black" />
 
         <service
             android:name=".service.PostUploadService"
             android:enabled="true"
             android:exported="true" />
+
     </application>
 
 </manifest>

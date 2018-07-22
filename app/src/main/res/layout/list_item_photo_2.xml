@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginTop="1dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/_14sdp"
-    android:layout_height="wrap_content">
+    android:layout_marginTop="1dp">
 
     <RelativeLayout
         android:id="@+id/me"
@@ -81,18 +81,34 @@
         android:layout_below="@id/txt_caption"
         android:background="@color/colorGrayEEE" />
 
-    <ImageView
-        android:id="@+id/img_1"
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_145sdp"
-        android:layout_below="@id/hr0"
-        android:background="#f9f9f9" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hr0">
+
+        <ImageView
+            android:id="@+id/img_1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_145sdp"
+            android:layout_weight="1"
+            android:background="#f9f9f9" />
+
+        <ImageView
+            android:id="@+id/img_2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_145sdp"
+            android:layout_marginStart="@dimen/_1sdp"
+            android:layout_weight="1"
+            android:background="#f9f9f9" />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/hr1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/img_1"
+        android:layout_below="@id/ll"
         android:background="@color/colorGrayEEE" />
 
     <LinearLayout

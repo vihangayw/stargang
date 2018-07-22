@@ -10,6 +10,9 @@ import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.modal.Signup;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by vihanga on 5/11/18 in ion-app.
@@ -20,7 +23,7 @@ public class UserSessionManager {
 	private static final String PREF_NAME = BuildConfig.APPLICATION_ID + ".pref";
 	private static final String KEY_VEHICLE_LIST = "VehicleTypes";
 	private static final String KEY_OPERATOR = "Operator";
-	private static final String KEY_POINT = "Pint";
+	private static final String KEY_EXP = "EXP";
 	private static final String KEY_AUTH_TOKEN = "Token";
 	private static final String KEY_IS_LOGIN = "IsLogin";
 	private static final String KEY_USER = "User";
@@ -50,6 +53,16 @@ public class UserSessionManager {
 		editor.putString(KEY_FIREBASE_UID, uID);
 		// commit changes
 		editor.commit();
+	}
+
+	public void creataEXP() {
+		editor.putString(KEY_EXP, new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+		// commit changes
+		editor.commit();
+	}
+
+	public String getExp() {
+		return pref.getString(KEY_EXP, null);
 	}
 
 	public void createAuthRetry(String vid, String retryToken) {

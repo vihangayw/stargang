@@ -141,7 +141,7 @@ public class APIHelper {
 				for (int i = 0; i < Constants.bitmaps.size(); i++) {
 					Bitmap bitmap = Constants.bitmaps.get(i);
 					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 40, stream);
 					byte[] byteArray = stream.toByteArray();
 					params.put("image[" + i + "]", new DataPart("post_" + i + "_" + Math.abs(random.nextLong()) + ".jpg",
 							byteArray, "image/jpeg"));
