@@ -75,16 +75,16 @@ public class APIHelper {
 			protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
 				Map<String, DataPart> params = new HashMap<>();
 				// for now just get bitmap data from ImageView
-				if (Constants.cover != null) {
+				if (Constants.profilePic != null) {
 					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					Constants.cover.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+					Constants.profilePic.compress(Bitmap.CompressFormat.JPEG, 50, stream);
 					byte[] byteArray = stream.toByteArray();
 					params.put("pimage", new DataPart("pimage.jpg",
 							byteArray, "image/jpeg"));
 				}
-				if (Constants.profilePic != null) {
+				if (Constants.cover != null) {
 					ByteArrayOutputStream stream = new ByteArrayOutputStream();
-					Constants.profilePic.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+					Constants.cover.compress(Bitmap.CompressFormat.JPEG, 50, stream);
 					byte[] byteArray = stream.toByteArray();
 					params.put("cimage", new DataPart("cimage.jpg",
 							byteArray, "image/jpeg"));

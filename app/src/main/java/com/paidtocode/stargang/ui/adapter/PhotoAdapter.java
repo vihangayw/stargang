@@ -208,8 +208,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		boolean setImage = false;
 		if (type != null && !type.isEmpty()) {
 			UserType userType = type.get(0);
-			if (userType != null && !TextUtils.isEmpty(userType.getUserType())
-					&& TextUtils.equals(userType.getUserType(), "1")) {
+			if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
+					&& TextUtils.equals(userType.getIduserType(), "1")) {
 				if (!TextUtils.isEmpty(user.getImage())) {
 					setImage = true;
 					Glide.with(context)

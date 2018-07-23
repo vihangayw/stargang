@@ -15,9 +15,36 @@ public class Wall implements Serializable {
 	private String userFullName;
 	private String postID;
 	private String postText;
+	private String agoTime;
+	private int likes;
+	private int comments;
 	private List<WallImage> images;
 
 	public Wall() {
+	}
+
+	public String getAgoTime() {
+		return agoTime;
+	}
+
+	public void setAgoTime(String agoTime) {
+		this.agoTime = agoTime;
+	}
+
+	public int getLikes() {
+		return likes;
+	}
+
+	public void setLikes(int likes) {
+		this.likes = likes;
+	}
+
+	public int getComments() {
+		return comments;
+	}
+
+	public void setComments(int comments) {
+		this.comments = comments;
 	}
 
 	public String getIduser() {

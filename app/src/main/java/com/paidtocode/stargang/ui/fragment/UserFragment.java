@@ -175,8 +175,8 @@ public class UserFragment extends Fragment {
 			List<UserType> type = user.getType();
 			if (type != null && !type.isEmpty()) {
 				UserType userType = type.get(0);
-				if (userType != null && !TextUtils.isEmpty(userType.getUserType())
-						&& TextUtils.equals(userType.getUserType(), "1")) {
+				if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
+						&& TextUtils.equals(userType.getIduserType(), "1")) {
 					if (!TextUtils.isEmpty(user.getcImage()))
 						Glide.with(this)
 								.load(user.getcImage())

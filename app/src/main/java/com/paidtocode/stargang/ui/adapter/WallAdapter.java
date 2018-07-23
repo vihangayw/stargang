@@ -1,6 +1,7 @@
 package com.paidtocode.stargang.ui.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -128,22 +129,20 @@ public class WallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 					showPostImagesMore(images, holder);
 				}
 			}
-			holder.layoutComment.setVisibility(View.GONE); //// TODO: 7/22/18  remove
-//			holder.txtTime.setText(!TextUtils.isEmpty(wall.getAgoTime()) ? wall.getAgoTime() : "");
-//			holder.txtLike.setText(String.valueOf(wall.getLikes()));
-//			holder.txtComment.setText(String.valueOf(wall.getComments()));
+			holder.txtTime.setText(!TextUtils.isEmpty(wall.getAgoTime()) ? wall.getAgoTime() : "");
+			holder.txtLike.setText(String.valueOf(wall.getLikes()));
+			holder.txtComment.setText(String.valueOf(wall.getComments()));
 
-//			if (wall.getLikes() > 0) {
-//				holder.imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star));
-//			} else {
-//				holder.imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star_not_fill));
-//			}
-//			if (wall.getComments() > 0) {
-//				holder.imgComment.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_comment_fill));
-//			} else {
-//				holder.imgComment.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_comment));
-//			}
-
+			if (wall.getLikes() > 0) {
+				holder.imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star));
+			} else {
+				holder.imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star_not_fill));
+			}
+			if (wall.getComments() > 0) {
+				holder.imgComment.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_comment_fill));
+			} else {
+				holder.imgComment.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_comment));
+			}
 		}
 	}
 
@@ -205,8 +204,8 @@ public class WallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		boolean setImage = false;
 		if (type != null && !type.isEmpty()) {
 			UserType userType = type.get(0);
-			if (userType != null && !TextUtils.isEmpty(userType.getUserType())
-					&& TextUtils.equals(userType.getUserType(), "1")) {
+			if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
+					&& TextUtils.equals(userType.getIduserType(), "1")) {
 				if (!TextUtils.isEmpty(user.getImage())) {
 					setImage = true;
 					Glide.with(context)
