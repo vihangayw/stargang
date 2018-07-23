@@ -41,10 +41,13 @@ import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.api.response.PostListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
 import com.paidtocode.stargang.modal.Post;
+import com.paidtocode.stargang.modal.Wall;
 import com.paidtocode.stargang.ui.AddPostActivity;
+import com.paidtocode.stargang.ui.CommentActivity;
 import com.paidtocode.stargang.ui.ImagePreviewActivity;
 import com.paidtocode.stargang.ui.PostImagesActivity;
 import com.paidtocode.stargang.ui.adapter.PhotoAdapter;
+import com.paidtocode.stargang.util.Constants;
 import com.paidtocode.stargang.util.UtilityManager;
 
 import java.io.File;
@@ -73,6 +76,7 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	private RecyclerView recyclerView;
 	private CoordinatorLayout coordinator;
 	private SwipeRefreshLayout refreshLayout;
+	private Post postComment;
 
 	public PhotoFragment() {
 		// Required empty public constructor
@@ -283,7 +287,16 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 					}
 				}
 				break;
-
+			case 400:
+				if (postComment != null && adapter != null && Constants.addComment > 0) {
+					int i = adapter.getPosts().indexOf(postComment);
+					if (i != -1) {
+						postComment.setComments(postComment.getComments() + Constants.addComment);
+						postComment.setCommentByMe(true);
+						adapter.notifyItemChanged(i);
+					}
+				}
+				break;
 		}
 	}
 
@@ -314,7 +327,38 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 					intent.putExtras(bundle);
 					startActivity(intent);
 					break;
+				case R.id.img_like:
+					Post post = adapter.getPosts().get(position);
+					likePost(post);
+					break;
+				case R.id.btn_comment:
+					intent = new Intent(getActivity(), CommentActivity.class);
+					bundle = new Bundle();
+					postComment = adapter.getPosts().get(position);
+					bundle.putSerializable("wall", new Wall(postComment.getpID()));
+					intent.putExtras(bundle);
+					startActivityForResult(intent, 400);
+					break;
 			}
+	}
+
+	private void likePost(Post post) {
+		new PostRequestHelperImpl().likeUnlike(post.getpID(), new APIHelper.PostManResponseListener() {
+			@Override
+			public void onResponse(Ancestor ancestor) {
+
+			}
+
+			@Override
+			public void onError(Error error) {
+				if (getActivity() != null) {
+					if (!TextUtils.isEmpty(error.getMessage())) {
+						Toast.makeText(getActivity(),
+								error.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		});
 	}
 
 	@Override

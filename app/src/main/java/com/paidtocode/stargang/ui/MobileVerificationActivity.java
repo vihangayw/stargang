@@ -39,7 +39,6 @@ public class MobileVerificationActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mobile_verification);
 
-
 		initializeViews();
 		setListeners();
 	}
@@ -47,8 +46,6 @@ public class MobileVerificationActivity extends AppCompatActivity {
 	private void initializeViews() {
 		txtNumber = findViewById(R.id.txt_mobile);
 		btnSubmit = findViewById(R.id.btn_submit);
-
-
 	}
 
 	private void setListeners() {

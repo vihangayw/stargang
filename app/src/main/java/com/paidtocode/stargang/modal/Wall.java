@@ -1,5 +1,7 @@
 package com.paidtocode.stargang.modal;
 
+import android.text.TextUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -18,9 +20,31 @@ public class Wall implements Serializable {
 	private String agoTime;
 	private int likes;
 	private int comments;
+	private boolean likeByMe;
+	private boolean commentByMe;
 	private List<WallImage> images;
 
 	public Wall() {
+	}
+
+	public Wall(String postID) {
+		this.postID = postID;
+	}
+
+	public boolean isLikeByMe() {
+		return likeByMe;
+	}
+
+	public void setLikeByMe(boolean likeByMe) {
+		this.likeByMe = likeByMe;
+	}
+
+	public boolean isCommentByMe() {
+		return commentByMe;
+	}
+
+	public void setCommentByMe(boolean commentByMe) {
+		this.commentByMe = commentByMe;
 	}
 
 	public String getAgoTime() {
@@ -86,4 +110,13 @@ public class Wall implements Serializable {
 	public void setImages(List<WallImage> images) {
 		this.images = images;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Wall wall = (Wall) o;
+		return TextUtils.equals(postID, wall.postID);
+	}
+
 }

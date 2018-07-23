@@ -19,6 +19,9 @@ public class APIURLHelper {
 	private static final String LOGOUT = "/logOut";
 	private static final String USER_PROFILE = "/userInfo";
 	private static final String RESET_PW = "/resetPassword";
+	private static final String ADD_COMMENT = "/addComment";
+	private static final String VIEW_COMMENT = "/viewComment";
+	private static final String LIKE = "/like";
 
 	public static String getRegisterURL() {
 		return BASE_URL.concat(REGISTER);
@@ -54,6 +57,18 @@ public class APIURLHelper {
 
 	public static String getWallPostsURL() {
 		return BASE_URL.concat(WALL);
+	}
+
+	public static String getLikePostsURL() {
+		return BASE_URL.concat(LIKE);
+	}
+
+	public static String getAddCommentURL() {
+		return BASE_URL.concat(ADD_COMMENT);
+	}
+
+	public static String getViewCommentURL() {
+		return BASE_URL.concat(VIEW_COMMENT);
 	}
 
 	public static String getUserProfileURL() {

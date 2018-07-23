@@ -1,6 +1,8 @@
 package com.paidtocode.stargang.ui.adapter;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.paidtocode.stargang.R;
+import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.modal.Image;
 import com.paidtocode.stargang.modal.Post;
 import com.paidtocode.stargang.modal.Signup;
@@ -136,12 +140,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 			holder.txtLike.setText(String.valueOf(post.getLikes()));
 			holder.txtComment.setText(String.valueOf(post.getComments()));
 
-			if (post.getLikes() > 0) {
+			if (post.isLikeByMe()) {
 				holder.imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star));
 			} else {
 				holder.imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star_not_fill));
 			}
-			if (post.getComments() > 0) {
+			if (post.isCommentByMe()) {
 				holder.imgComment.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_comment_fill));
 			} else {
 				holder.imgComment.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_comment));
@@ -264,6 +268,27 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		}
 	}
 
+	public boolean checkNetwork() {
+		if (isNetworkConnected()) {
+			return true;
+		}
+		if (context != null)
+			Toast.makeText(context, context.getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+		return false;
+	}
+
+	public boolean isNetworkConnected() {
+		ConnectivityManager cm =
+				(ConnectivityManager) StarGangApplication.getInstance().getApplicationContext()
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (cm != null) {
+			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+			return activeNetwork != null &&
+					activeNetwork.isConnectedOrConnecting();
+		}
+		return false;
+	}
+
 	class Post1ViewHolder extends RecyclerView.ViewHolder {
 
 		final TextView txtName;
@@ -279,9 +304,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		final ImageView img2;
 		final View hr;
 		final View overlay;
+		final View btnComment;
 
 		Post1ViewHolder(View itemView) {
 			super(itemView);
+			btnComment = itemView.findViewById(R.id.btn_comment);
 			txtCaption = itemView.findViewById(R.id.txt_caption);
 			hr = itemView.findViewById(R.id.hr0);
 			overlay = itemView.findViewById(R.id.overlay);
@@ -303,15 +330,23 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 			imgLike.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					if (listener != null)
-						listener.onComponentClick(view, getLayoutPosition());
-				}
-			});
-			imgComment.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					if (listener != null)
-						listener.onComponentClick(view, getLayoutPosition());
+					if (listener != null && checkNetwork()) {
+						int pos = getLayoutPosition();
+						listener.onComponentClick(view, pos);
+						if (posts != null && posts.size() > pos) {
+							Post wall = posts.get(pos);
+							wall.setLikeByMe(!wall.isLikeByMe());
+							if (wall.isLikeByMe()) {
+								wall.setLikes(wall.getLikes() + 1);
+								imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star));
+							} else {
+								wall.setLikes(wall.getLikes() - 1);
+								imgLike.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_star_not_fill));
+							}
+							if (wall.getLikes() < 0) wall.setLikes(0);
+							txtLike.setText(String.valueOf(wall.getLikes()));
+						}
+					}
 				}
 			});
 			if (txtMore != null)
@@ -338,6 +373,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 				}
 			});
 
+			btnComment.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					if (listener != null)
+						listener.onComponentClick(view, getLayoutPosition());
+				}
+			});
 		}
 	}
 }

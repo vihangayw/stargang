@@ -23,4 +23,6 @@
     <string name="uploading">Uploading Images</string>
     <string name="post_images">Post Images</string>
     <string name="reset_pw">Reset password</string>
+    <string name="write_your_comment">Write your comment…</string>
+    <string name="comments">Comments</string>
 </resources>

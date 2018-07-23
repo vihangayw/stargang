@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/sanfranciscotext_regular"
-            android:paddingEnd="@dimen/_20sdp"
-            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_40sdp"
+            android:paddingStart="@dimen/_40sdp"
             android:text="@string/enter_the_code"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />

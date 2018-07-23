@@ -68,6 +68,12 @@ public class UserFragment extends Fragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		showUserData();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
@@ -177,9 +183,9 @@ public class UserFragment extends Fragment {
 				UserType userType = type.get(0);
 				if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
 						&& TextUtils.equals(userType.getIduserType(), "1")) {
-					if (!TextUtils.isEmpty(user.getcImage()))
+					if (!TextUtils.isEmpty(user.getImage()))
 						Glide.with(this)
-								.load(user.getcImage())
+								.load(user.getImage())
 								.centerCrop()
 								.diskCacheStrategy(DiskCacheStrategy.ALL)
 								.into(imgUser);

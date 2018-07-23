@@ -17,9 +17,27 @@ public class Post implements Serializable {
 	private String agoTime;
 	private int likes;
 	private int comments;
+	private boolean likeByMe;
+	private boolean commentByMe;
 	private List<Image> images;
 
 	public Post() {
+	}
+
+	public boolean isLikeByMe() {
+		return likeByMe;
+	}
+
+	public void setLikeByMe(boolean likeByMe) {
+		this.likeByMe = likeByMe;
+	}
+
+	public boolean isCommentByMe() {
+		return commentByMe;
+	}
+
+	public void setCommentByMe(boolean commentByMe) {
+		this.commentByMe = commentByMe;
 	}
 
 	public String getpID() {

@@ -15,4 +15,9 @@ public interface PostRequestHelper {
 
 	void getWallPosts(int page, int limit, APIHelper.PostManResponseListener listener);
 
+	void getAllComments(int page, int limit, String postID, APIHelper.PostManResponseListener listener);
+
+	void addComment(String comment, String postID, APIHelper.PostManResponseListener listener);
+
+	void likeUnlike(String postID, APIHelper.PostManResponseListener listener);
 }

@@ -24,6 +24,11 @@ public class Signup implements Serializable {
 	public Signup() {
 	}
 
+	public Signup(String image, List<UserType> type) {
+		this.image = image;
+		this.type = type;
+	}
+
 	public String getId() {
 		return id;
 	}

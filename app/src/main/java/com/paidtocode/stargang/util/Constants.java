@@ -13,5 +13,7 @@ public class Constants {
 	public static Bitmap cover = null;
 	public static Bitmap profilePic = null;
 
+	public static int addComment = 0;
+
 	public static final List<Bitmap> bitmaps = new ArrayList<>();
 }

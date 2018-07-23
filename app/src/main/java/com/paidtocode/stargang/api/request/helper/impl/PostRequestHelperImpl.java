@@ -4,6 +4,9 @@ import com.android.volley.Request;
 import com.paidtocode.stargang.api.APIHelper;
 import com.paidtocode.stargang.api.APIURLHelper;
 import com.paidtocode.stargang.api.request.helper.PostRequestHelper;
+import com.paidtocode.stargang.api.response.factory.impl.AncestorCommentListResponseFactory;
+import com.paidtocode.stargang.api.response.factory.impl.AncestorCommentResponseFactory;
+import com.paidtocode.stargang.api.response.factory.impl.AncestorLikeResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorPostListResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorPostResponseFactory;
 import com.paidtocode.stargang.api.response.factory.impl.AncestorWallListResponseFactory;
@@ -45,5 +48,35 @@ public class PostRequestHelperImpl implements PostRequestHelper {
 		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
 		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorWallListResponseFactory(),
 				Request.Method.POST, APIURLHelper.getWallPostsURL(), paramMap);
+	}
+
+	@Override
+	public void getAllComments(int page, int limit, String postID, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("page", String.valueOf(page));
+		paramMap.put("comments", String.valueOf(limit));
+		paramMap.put("postId", postID);
+		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorCommentListResponseFactory(),
+				Request.Method.POST, APIURLHelper.getViewCommentURL(), paramMap);
+	}
+
+	@Override
+	public void addComment(String comment, String postID, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("comment", comment);
+		paramMap.put("postId", postID);
+		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorCommentResponseFactory(),
+				Request.Method.POST, APIURLHelper.getAddCommentURL(), paramMap);
+	}
+
+	@Override
+	public void likeUnlike(String postID, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("postId", postID);
+		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorLikeResponseFactory(),
+				Request.Method.POST, APIURLHelper.getLikePostsURL(), paramMap);
 	}
 }

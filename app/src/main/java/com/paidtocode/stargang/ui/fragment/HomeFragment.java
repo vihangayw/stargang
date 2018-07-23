@@ -21,6 +21,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -42,10 +43,13 @@ import com.paidtocode.stargang.api.response.WallListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
 import com.paidtocode.stargang.modal.Wall;
 import com.paidtocode.stargang.ui.AddPostActivity;
+import com.paidtocode.stargang.ui.CommentActivity;
 import com.paidtocode.stargang.ui.ImagePreviewActivity;
 import com.paidtocode.stargang.ui.PostImagesActivity;
 import com.paidtocode.stargang.ui.adapter.WallAdapter;
+import com.paidtocode.stargang.util.Constants;
 import com.paidtocode.stargang.util.UtilityManager;
+import com.paidtocode.stargang.util.WrapContentLinearLayoutManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +76,8 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 	private RecyclerView recyclerView;
 	private CoordinatorLayout coordinator;
+	private Wall wallComment;
+	private SwipeRefreshLayout swipeRefreshLayout;
 
 	public HomeFragment() {
 		// Required empty public constructor
@@ -112,9 +118,11 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 		txtInfo = view.findViewById(R.id.txt_info);
 		coordinator = view.findViewById(R.id.coordinator);
 		txtInfo.setVisibility(View.GONE);
+		swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+		swipeRefreshLayout.setRefreshing(false);
 
 		recyclerView = view.findViewById(R.id.recycler_view);
-		recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+		recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 		adapter = new WallAdapter(null, this, getContext());
 		recyclerView.setAdapter(adapter);
 
@@ -141,6 +149,7 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 			new PostRequestHelperImpl().getWallPosts(page, LIMIT, new APIHelper.PostManResponseListener() {
 				@Override
 				public void onResponse(Ancestor ancestor) {
+					swipeRefreshLayout.setRefreshing(false);
 					if (adapter == null) return;
 					removeProgress();
 					if (ancestor instanceof WallListResponse) {
@@ -159,6 +168,7 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 				}
 
 				private void removeProgress() {
+					swipeRefreshLayout.setRefreshing(false);
 					if (adapter.getItemCount() > 0
 							&& adapter.getPosts().get(adapter.getItemCount() - 1) == null) {
 						adapter.getPosts().remove(adapter.getItemCount() - 1);
@@ -193,7 +203,18 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 
 	private void setListeners() {
 		recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
-
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				if (checkNetwork()) {
+					if (adapter != null) {
+						adapter.getPosts().clear();
+						page = 0;
+						loadMore(++page);
+					}
+				}
+			}
+		});
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -258,7 +279,16 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 					}
 				}
 				break;
-
+			case 400:
+				if (wallComment != null && adapter != null && Constants.addComment > 0) {
+					int i = adapter.getPosts().indexOf(wallComment);
+					if (i != -1) {
+						wallComment.setComments(wallComment.getComments() + Constants.addComment);
+						wallComment.setCommentByMe(true);
+						adapter.notifyItemChanged(i);
+					}
+				}
+				break;
 		}
 	}
 
@@ -289,7 +319,38 @@ public class HomeFragment extends Fragment implements WallAdapter.OnComponentCli
 					intent.putExtras(bundle);
 					startActivity(intent);
 					break;
+				case R.id.img_like:
+					Wall post = adapter.getPosts().get(position);
+					likePost(post);
+					break;
+				case R.id.btn_comment:
+					intent = new Intent(getActivity(), CommentActivity.class);
+					bundle = new Bundle();
+					wallComment = adapter.getPosts().get(position);
+					bundle.putSerializable("wall", wallComment);
+					intent.putExtras(bundle);
+					startActivityForResult(intent, 400);
+					break;
 			}
+	}
+
+	private void likePost(Wall post) {
+		new PostRequestHelperImpl().likeUnlike(post.getPostID(), new APIHelper.PostManResponseListener() {
+			@Override
+			public void onResponse(Ancestor ancestor) {
+
+			}
+
+			@Override
+			public void onError(Error error) {
+				if (getActivity() != null) {
+					if (!TextUtils.isEmpty(error.getMessage())) {
+						Toast.makeText(getActivity(),
+								error.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		});
 	}
 
 	@Override

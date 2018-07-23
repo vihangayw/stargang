@@ -72,11 +72,16 @@
             android:name=".ui.PasswordResetActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.CommentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".service.PostUploadService"
             android:enabled="true"
             android:exported="true" />
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
