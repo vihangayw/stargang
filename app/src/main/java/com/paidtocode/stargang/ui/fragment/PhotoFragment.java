@@ -218,8 +218,9 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 				endlessRecyclerViewScrollListener.resetState();
 				PhotoFragment.this.page = 0;
 				if (adapter != null) {
-					adapter.getPosts().clear();
-					adapter.notifyDataSetChanged();
+					if (adapter.getItemCount() > 0) {
+						adapter.getPosts().clear();
+					}
 					loadMore(++PhotoFragment.this.page);
 				}
 			}

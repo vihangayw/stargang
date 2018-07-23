@@ -6,11 +6,14 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.paidtocode.stargang.listener.NetworkListener;
 import com.paidtocode.stargang.util.UserSessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class StarGangApplication extends MultiDexApplication {
 	private static final String TAG = StarGangApplication.class.getSimpleName();
@@ -35,6 +38,11 @@ public class StarGangApplication extends MultiDexApplication {
 		super.onCreate();
 		application = this;
 		MultiDex.install(this);
+		// Crashlytics
+		Fabric.with(new Fabric.Builder(this)
+				.kits(new Crashlytics())
+				.debuggable(true)
+				.build());
 	}
 
 	public void addNetworkListener(NetworkListener listener) {
