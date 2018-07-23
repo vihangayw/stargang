@@ -6,10 +6,13 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.paidtocode.stargang.api.response.Ancestor;
 import com.paidtocode.stargang.api.response.Error;
+import com.paidtocode.stargang.api.response.MobitelAncestor;
 import com.paidtocode.stargang.api.response.factory.AncestorsFactory;
+import com.paidtocode.stargang.api.response.factory.MobitelAncestorsFactory;
 import com.paidtocode.stargang.util.Constants;
 
 import org.json.JSONException;
@@ -241,9 +244,50 @@ public class APIHelper {
 		VolleySingleton.getInstance().addToRequestQueue(request);
 	}
 
+	public void sendAuthJsonWithParams(final PostManMobitelResponseListener context,
+	                                   final MobitelAncestorsFactory factory,
+	                                   int httpMethod, String apiUrl,
+	                                   JSONObject jsonObject) {
+
+		JsonObjectRequest request = new JsonObjectRequest(httpMethod, apiUrl, jsonObject, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				if (context != null) {
+					try {
+						context.onResponse(factory.parse(response));
+					} catch (IOException e) {
+						e.printStackTrace();
+						context.onError(new Error("IOException", e.getLocalizedMessage(), false));
+					}
+				}
+			}
+
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (context != null)
+					context.onError(VolleySingleton.getInstance().getErrorMessage(error));
+			}
+		}) {
+
+			@Override
+			public Map<String, String> getHeaders() {
+				return VolleySingleton.getInstance().getAPIHeaderJson();
+			}
+		};
+
+		VolleySingleton.getInstance().addToRequestQueue(request);
+	}
+
 
 	public interface PostManResponseListener {
 		void onResponse(Ancestor ancestor);
+
+		void onError(Error error);
+	}
+
+	public interface PostManMobitelResponseListener {
+		void onResponse(MobitelAncestor ancestor);
 
 		void onError(Error error);
 	}

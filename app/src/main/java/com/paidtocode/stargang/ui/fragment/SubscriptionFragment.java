@@ -19,15 +19,20 @@ import android.widget.Toast;
 import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.APIHelper;
+import com.paidtocode.stargang.api.request.helper.impl.MobitelRequestHelperImpl;
 import com.paidtocode.stargang.api.request.helper.impl.UserRequestHelperImpl;
 import com.paidtocode.stargang.api.response.Ancestor;
 import com.paidtocode.stargang.api.response.Error;
+import com.paidtocode.stargang.api.response.MobitelAncestor;
+import com.paidtocode.stargang.api.response.SubscriberResponse;
 import com.paidtocode.stargang.api.response.UserListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
 import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserList;
 import com.paidtocode.stargang.ui.adapter.UserAdapter;
 import com.paidtocode.stargang.util.UtilityManager;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -247,6 +252,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 						if (getActivity() != null)
 							Toast.makeText(getActivity(), "Request Sent", Toast.LENGTH_SHORT).show();
 						updateUser(user);
+						mobitelSubscribe(user);
 					} else {
 						if (getActivity() != null)
 							Toast.makeText(getActivity(), "Request Failed", Toast.LENGTH_SHORT).show();
@@ -264,6 +270,32 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 					}
 				}
 			});
+	}
+
+	private void mobitelSubscribe(User user) {
+		try {
+			new MobitelRequestHelperImpl().subscribe("0710710917", new APIHelper.PostManMobitelResponseListener() {
+				@Override
+				public void onResponse(MobitelAncestor ancestor) {
+					if (ancestor instanceof SubscriberResponse) {
+
+					}
+				}
+
+				@Override
+				public void onError(Error error) {
+					if (getActivity() == null) return;
+					if (error != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(getActivity(),
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void updateUser(User user) {
