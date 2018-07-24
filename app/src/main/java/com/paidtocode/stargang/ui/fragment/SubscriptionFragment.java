@@ -6,14 +6,18 @@ import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.paidtocode.stargang.R;
@@ -31,6 +35,7 @@ import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserList;
 import com.paidtocode.stargang.ui.adapter.UserAdapter;
 import com.paidtocode.stargang.util.UtilityManager;
+import com.paidtocode.stargang.util.WrapContentLinearLayoutManager;
 
 import org.json.JSONException;
 
@@ -49,8 +54,11 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 	private int page;
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 	private RecyclerView recyclerView;
+	Handler handler = new Handler();
 	private UserAdapter userAdapter;
+	private EditText txtSearch;
 	private AlertDialog alertDialog;
+	private String key = "";
 
 	public SubscriptionFragment() {
 		// Required empty public constructor
@@ -84,13 +92,85 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 		loadMore(++SubscriptionFragment.this.page);
 	}
 
+	private APIHelper.PostManResponseListener postManResponseListener;
+	Runnable runnable = new Runnable() {
+		@Override
+		public void run() {
+			page = 1;
+			if (userAdapter != null) userAdapter.getUsers().clear();
+			searchProduct();
+		}
+	};
+
 	private void setHookListeners() {
+		postManResponseListener = new APIHelper.PostManResponseListener() {
+			@Override
+			public void onResponse(Ancestor ancestor) {
+				if (userAdapter == null) return;
+				removeProgress();
+				if (ancestor instanceof UserListResponse) {
+					UserList data = ((UserListResponse) ancestor).getData();
+					if (data != null && data.getUsers() != null) {
+						userAdapter.getUsers().addAll(data.getUsers());
+						userAdapter.notifyDataSetChanged();
+					}
+				}
+			}
+
+			private void removeProgress() {
+				if (userAdapter.getItemCount() > 0
+						&& userAdapter.getUsers().get(userAdapter.getItemCount() - 1) == null) {
+					userAdapter.getUsers().remove(userAdapter.getItemCount() - 1);
+					userAdapter.notifyItemRemoved(userAdapter.getItemCount() - 1);
+				}
+			}
+
+			@Override
+			public void onError(Error error) {
+				SubscriptionFragment.this.page--;
+				if (userAdapter == null) return;
+				removeProgress();
+				if (getActivity() != null) {
+					if (!TextUtils.isEmpty(error.getMessage())) {
+						Toast.makeText(getActivity(),
+								error.getMessage(), Toast.LENGTH_SHORT).show();
+					}
+				}
+			}
+		};
+		txtSearch.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				SubscriptionFragment.this.key = s.toString();
+				handler.removeCallbacks(runnable);
+				handler.postDelayed(runnable, 800);
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
 		recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
 	}
 
+	private void searchProduct() {
+		if (!TextUtils.isEmpty(key)) {
+			new UserRequestHelperImpl().getUserList(key.trim(), page, LIMIT, postManResponseListener);
+		} else {
+			loadMore(page);
+		}
+	}
+
 	private void initializeComponents(View view) {
+		txtSearch = view.findViewById(R.id.txt_search);
 		recyclerView = view.findViewById(R.id.recycler_view);
-		recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+		recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 		userAdapter = new UserAdapter(null, this, getContext());
 		recyclerView.setAdapter(userAdapter);
 
@@ -113,44 +193,13 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 	}
 
 	private void loadMore(int page) {
-		if (checkNetwork())
-			new UserRequestHelperImpl().getUserList(page, LIMIT, new APIHelper.PostManResponseListener() {
-				@Override
-				public void onResponse(Ancestor ancestor) {
-					if (userAdapter == null) return;
-					removeProgress();
-					if (ancestor instanceof UserListResponse) {
-						UserList data = ((UserListResponse) ancestor).getData();
-						if (data != null && data.getUsers() != null) {
-							userAdapter.getUsers().addAll(data.getUsers());
-							userAdapter.notifyDataSetChanged();
-						}
-					}
-				}
-
-				private void removeProgress() {
-					if (userAdapter.getItemCount() > 0
-							&& userAdapter.getUsers().get(userAdapter.getItemCount() - 1) == null) {
-						userAdapter.getUsers().remove(userAdapter.getItemCount() - 1);
-						userAdapter.notifyItemRemoved(userAdapter.getItemCount() - 1);
-					}
-				}
-
-
-				@Override
-				public void onError(Error error) {
-					SubscriptionFragment.this.page--;
-					if (userAdapter == null) return;
-					removeProgress();
-					if (getActivity() != null) {
-						if (!TextUtils.isEmpty(error.getMessage())) {
-							Toast.makeText(getActivity(),
-									error.getMessage(), Toast.LENGTH_SHORT).show();
-						}
-					}
-				}
-			});
-		else {
+		if (checkNetwork()) {
+			if (!TextUtils.isEmpty(key)) {
+				new UserRequestHelperImpl().getUserList(key.trim(), page, LIMIT, postManResponseListener);
+			} else {
+				new UserRequestHelperImpl().getUserList(page, LIMIT, postManResponseListener);
+			}
+		} else {
 			SubscriptionFragment.this.page--;
 		}
 	}

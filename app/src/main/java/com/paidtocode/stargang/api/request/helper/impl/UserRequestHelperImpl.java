@@ -112,5 +112,16 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 				Request.Method.POST, APIURLHelper.editProfileURL(), paramMap);
 	}
 
+	@Override
+	public void getUserList(String trim, int page, int limit, APIHelper.PostManResponseListener postManResponseListener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("users", String.valueOf(limit));
+		paramMap.put("page", String.valueOf(page));
+		paramMap.put("search", trim);
+		paramMap.put("userId", UserSessionManager.getInstance().getUser().getId());
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(postManResponseListener, new AncestorUserListResponseFactory(),
+				Request.Method.POST, APIURLHelper.getAllUsers(), paramMap);
+	}
+
 
 }

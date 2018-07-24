@@ -28,4 +28,6 @@ public interface UserRequestHelper {
 	void doUnsubscribe(User user, APIHelper.PostManResponseListener listener);
 
 	void editProfile(String bd, String name, String info, APIHelper.PostManResponseListener listener);
+
+	void getUserList(String trim, int page, int limit, APIHelper.PostManResponseListener postManResponseListener);
 }
