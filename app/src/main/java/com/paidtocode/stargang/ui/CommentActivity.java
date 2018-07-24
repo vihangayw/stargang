@@ -120,10 +120,10 @@ public class CommentActivity extends AppCompatActivity {
 											if (user.getImage() != null)
 												data.setImage(user.getImage());
 										}
-										commentAdapter.getComments().add(data);
+										commentAdapter.getComments().add(0, data);
 										commentAdapter.notifyDataSetChanged();
 										editText.setText("");
-										recyclerView.scrollToPosition(commentAdapter.getItemCount() - 1);
+										recyclerView.scrollToPosition(0);
 										Constants.addComment++;
 									}
 								}

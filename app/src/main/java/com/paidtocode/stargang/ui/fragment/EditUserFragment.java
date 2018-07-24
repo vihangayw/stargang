@@ -130,7 +130,7 @@ public class EditUserFragment extends Fragment {
 			public void onDateChoose(int year, int month, int day) {
 				try {
 					if (new Date().after(new SimpleDateFormat("dd-MM-yyyy").parse(day + "-" + month + "-" + year))) {
-						txtBD.setText(day + "-" + month + "-" + year);
+						txtBD.setText(year + "-" + month + "-" + day);
 					} else if (getContext() != null)
 						Toast.makeText(getContext(), "Invalid Date", Toast.LENGTH_SHORT).show();
 				} catch (ParseException e) {
