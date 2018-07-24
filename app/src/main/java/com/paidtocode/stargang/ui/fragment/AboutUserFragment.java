@@ -22,7 +22,7 @@ import com.paidtocode.stargang.util.UserSessionManager;
  */
 public class AboutUserFragment extends Fragment {
 
-	private TextView txtName, txtEmail, txtInfo;
+	private TextView txtName, txtEmail, txtInfo, txtBd;
 
 	public AboutUserFragment() {
 		// Required empty public constructor
@@ -63,6 +63,7 @@ public class AboutUserFragment extends Fragment {
 		txtName = view.findViewById(R.id.txt_name);
 		txtEmail = view.findViewById(R.id.txt_email);
 		txtInfo = view.findViewById(R.id.txt_info);
+		txtBd = view.findViewById(R.id.txt_bd);
 		showUserData();
 	}
 
@@ -72,6 +73,7 @@ public class AboutUserFragment extends Fragment {
 			txtName.setText(!TextUtils.isEmpty(user.getFullName()) ? user.getFullName() : "");
 			txtInfo.setText(!TextUtils.isEmpty(user.getInfo()) ? user.getInfo() : "");
 			txtEmail.setText(!TextUtils.isEmpty(user.getEmail()) ? user.getEmail() : "");
+			txtBd.setText(!TextUtils.isEmpty(user.getBirthDay()) ? user.getBirthDay() : "");
 		}
 	}
 

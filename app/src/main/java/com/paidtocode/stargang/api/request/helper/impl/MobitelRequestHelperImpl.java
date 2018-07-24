@@ -14,6 +14,6 @@ public class MobitelRequestHelperImpl implements MobitelRequestHelper {
 	public void subscribe(String no, APIHelper.PostManMobitelResponseListener lis) throws JSONException {
 		APIHelper.getInstance().sendAuthJsonWithParams(lis, new AncestorSubscribeResponseFactory(),
 				Request.Method.POST, "https://apphub.mobitel.lk/mobext/mapi/subscription/addSubscription",
-				JsonService.toJsonNode(new Subscribe(83629859, no)));
+				JsonService.toJsonNode(new Subscribe(27633002, no)));
 	}
 }

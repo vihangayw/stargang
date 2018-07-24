@@ -24,8 +24,6 @@ import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.util.UserSessionManager;
 import com.paidtocode.stargang.util.UtilityManager;
 
-import java.util.Arrays;
-
 public class MobileVerificationActivity extends AppCompatActivity {
 
 	private String TAG = getClass().getSimpleName();
@@ -58,7 +56,7 @@ public class MobileVerificationActivity extends AppCompatActivity {
 							"Verifying your mobile number");
 					signInWithPhoneAuthCredential(PhoneAuthProvider.getCredential(
 							UserSessionManager.getInstance().getVerificationId(),
-							Arrays.toString(code)));
+							code[0] + "" + code[1] + "" + code[2] + "" + code[3] + "" + code[4] + "" + code[5] + ""));
 				} else {
 					Toast.makeText(MobileVerificationActivity.this, "Invalid Code !", Toast.LENGTH_SHORT).show();
 				}
@@ -105,8 +103,9 @@ public class MobileVerificationActivity extends AppCompatActivity {
 	}
 
 	private void startSignUpActivity() {
+		Character[] code = txtNumber.getCode();
 		Intent intent = new Intent(this, RegisterDetailActivity.class);
-		intent.putExtra("mobile_number", "+94" + Arrays.toString(txtNumber.getCode()));
+		intent.putExtra("mobile_number", "+94" + code[0] + "" + code[1] + "" + code[2] + "" + code[3] + "" + code[4] + "" + code[5] + "");
 		startActivity(intent);
 		progressAlert.dismiss();
 		finish();

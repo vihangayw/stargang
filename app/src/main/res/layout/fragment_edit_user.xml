@@ -1,96 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrayEEE"
-    android:orientation="vertical"
-    android:padding="@dimen/_12sdp"
-    tools:context=".ui.fragment.EditUserFragment">
+    android:background="@color/colorGrayEEE">
 
-    <TextView
-        android:id="@+id/lbl_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_1sdp"
-        android:fontFamily="@font/sanfranciscotext_regular"
-        android:text="Name"
-        android:textColor="@color/colorDarkGray"
-        android:textSize="@dimen/_13sdp" />
-
-    <EditText
-        android:id="@+id/txt_name"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_9sdp"
-        android:background="@drawable/edittext_line"
-        android:fontFamily="@font/sanfranciscotext_medium"
-        android:inputType="textPersonName"
-        android:maxLines="1"
-        android:paddingBottom="@dimen/_5sdp"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_15sdp" />
+        android:orientation="vertical"
+        android:padding="@dimen/_12sdp"
+        tools:context=".ui.fragment.EditUserFragment">
 
-    <TextView
-        android:id="@+id/lbl_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_9sdp"
-        android:fontFamily="@font/sanfranciscotext_regular"
-        android:text="Email"
-        android:textColor="@color/colorDarkGray"
-        android:textSize="@dimen/_13sdp" />
+        <TextView
+            android:id="@+id/lbl_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:fontFamily="@font/sanfranciscotext_regular"
+            android:text="Name"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="@dimen/_13sdp" />
 
-    <EditText
-        android:id="@+id/txt_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_9sdp"
-        android:background="@drawable/edittext_line"
-        android:enabled="false"
-        android:fontFamily="@font/sanfranciscotext_medium"
-        android:inputType="textEmailAddress"
-        android:maxLines="1"
-        android:paddingBottom="@dimen/_5sdp"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_15sdp" />
+        <EditText
+            android:id="@+id/txt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:background="@drawable/edittext_line"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/_5sdp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15sdp" />
 
-    <TextView
-        android:id="@+id/lbl_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_9sdp"
-        android:fontFamily="@font/sanfranciscotext_regular"
-        android:text="Info"
-        android:textColor="@color/colorDarkGray"
-        android:textSize="@dimen/_13sdp" />
+        <TextView
+            android:id="@+id/lbl_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:fontFamily="@font/sanfranciscotext_regular"
+            android:text="Email"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="@dimen/_13sdp" />
 
-    <EditText
-        android:id="@+id/txt_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_9sdp"
-        android:background="@drawable/edittext_line"
-        android:ems="8"
-        android:fontFamily="@font/sanfranciscotext_medium"
-        android:inputType="textMultiLine"
-        android:maxLines="8"
-        android:paddingBottom="@dimen/_5sdp"
-        android:textColor="@color/colorBlack"
-        android:textSize="@dimen/_15sdp" />
+        <EditText
+            android:id="@+id/txt_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:background="@drawable/edittext_line"
+            android:enabled="false"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/_5sdp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15sdp" />
+
+        <TextView
+            android:id="@+id/lbl_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:fontFamily="@font/sanfranciscotext_regular"
+            android:text="Info"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="@dimen/_13sdp" />
+
+        <EditText
+            android:id="@+id/txt_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:background="@drawable/edittext_line"
+            android:ems="8"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:inputType="textMultiLine"
+            android:maxLines="8"
+            android:paddingBottom="@dimen/_5sdp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15sdp" />
+
+        <TextView
+            android:id="@+id/lbl_bday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:fontFamily="@font/sanfranciscotext_regular"
+            android:text="Birthday"
+            android:textColor="@color/colorDarkGray"
+            android:textSize="@dimen/_13sdp" />
+
+        <EditText
+            android:id="@+id/txt_bday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:background="@drawable/edittext_line"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:inputType="none"
+            android:maxLines="1"
+            android:paddingBottom="@dimen/_5sdp"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15sdp" />
 
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_18sdp"
-        android:background="@drawable/btn_round_blue"
-        android:fontFamily="@font/sanfranciscotext_medium"
-        android:gravity="center"
-        android:padding="@dimen/_8sdp"
-        android:text="Save"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_15sdp" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_18sdp"
+            android:background="@drawable/btn_round_blue"
+            android:fontFamily="@font/sanfranciscotext_medium"
+            android:gravity="center"
+            android:padding="@dimen/_8sdp"
+            android:text="Save"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/_15sdp" />
+    </LinearLayout>
+
+</ScrollView>

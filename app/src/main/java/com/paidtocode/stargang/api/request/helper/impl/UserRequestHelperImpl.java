@@ -99,12 +99,12 @@ public class UserRequestHelperImpl implements UserRequestHelper {
 	}
 
 	@Override
-	public void editProfile(String name, String info, APIHelper.PostManResponseListener listener) {
+	public void editProfile(String bd, String name, String info, APIHelper.PostManResponseListener listener) {
 		Map<String, String> paramMap = new HashMap<>();
 		Signup user = UserSessionManager.getInstance().getUser();
 		paramMap.put("name", name);
 		paramMap.put("info", info);
-		paramMap.put("birthDay", "2001-01-01");
+		paramMap.put("birthDay", bd);
 		paramMap.put("email", user.getEmail());
 		paramMap.put("uid", user.getId());
 

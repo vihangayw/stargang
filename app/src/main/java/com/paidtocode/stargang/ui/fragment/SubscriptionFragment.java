@@ -274,7 +274,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 
 	private void mobitelSubscribe(User user) {
 		try {
-			new MobitelRequestHelperImpl().subscribe("0710710917", new APIHelper.PostManMobitelResponseListener() {
+			new MobitelRequestHelperImpl().subscribe("roomek", new APIHelper.PostManMobitelResponseListener() {
 				@Override
 				public void onResponse(MobitelAncestor ancestor) {
 					if (ancestor instanceof SubscriberResponse) {

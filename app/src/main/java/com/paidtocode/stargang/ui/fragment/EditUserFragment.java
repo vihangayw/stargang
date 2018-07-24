@@ -27,8 +27,13 @@ import com.paidtocode.stargang.modal.Signup;
 import com.paidtocode.stargang.util.JsonService;
 import com.paidtocode.stargang.util.UserSessionManager;
 import com.paidtocode.stargang.util.UtilityManager;
+import com.ycuwq.datepicker.date.DatePickerDialogFragment;
 
 import org.json.JSONException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,8 +42,9 @@ import org.json.JSONException;
  */
 public class EditUserFragment extends Fragment {
 
-	private EditText txtName, txtEmail, txtInfo;
+	private EditText txtName, txtEmail, txtInfo, txtBD;
 	private View btnSave;
+	private DatePickerDialogFragment datePickerDialogFragment;
 
 	public EditUserFragment() {
 		// Required empty public constructor
@@ -80,7 +86,9 @@ public class EditUserFragment extends Fragment {
 		txtName = view.findViewById(R.id.txt_name);
 		txtEmail = view.findViewById(R.id.txt_email);
 		txtInfo = view.findViewById(R.id.txt_info);
+		txtBD = view.findViewById(R.id.txt_bday);
 		btnSave = view.findViewById(R.id.btn_save);
+		datePickerDialogFragment = new DatePickerDialogFragment();
 		showUserData();
 	}
 
@@ -90,6 +98,7 @@ public class EditUserFragment extends Fragment {
 			txtName.setText(!TextUtils.isEmpty(user.getFullName()) ? user.getFullName() : "");
 			txtInfo.setText(!TextUtils.isEmpty(user.getInfo()) ? user.getInfo() : "");
 			txtEmail.setText(!TextUtils.isEmpty(user.getEmail()) ? user.getEmail() : "");
+			txtBD.setText(!TextUtils.isEmpty(user.getBirthDay()) ? user.getBirthDay() : "");
 		}
 	}
 
@@ -102,12 +111,40 @@ public class EditUserFragment extends Fragment {
 				}
 			}
 		});
+		txtBD.setKeyListener(null);
+		txtBD.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (getActivity() != null)
+					datePickerDialogFragment.show(getActivity().getSupportFragmentManager(), "DatePickerDialogFragment");
+			}
+		});
+		txtBD.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View view, boolean b) {
+				if (b) txtBD.performClick();
+			}
+		});
+		datePickerDialogFragment.setOnDateChooseListener(new DatePickerDialogFragment.OnDateChooseListener() {
+			@Override
+			public void onDateChoose(int year, int month, int day) {
+				try {
+					if (new Date().after(new SimpleDateFormat("dd-MM-yyyy").parse(day + "-" + month + "-" + year))) {
+						txtBD.setText(day + "-" + month + "-" + year);
+					} else if (getContext() != null)
+						Toast.makeText(getContext(), "Invalid Date", Toast.LENGTH_SHORT).show();
+				} catch (ParseException e) {
+					if (getContext() != null)
+						Toast.makeText(getContext(), "Invalid Date", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 
 	private void saveProfile() {
 		if (checkNetwork()) {
 			final ProgressDialog progressDialog = UtilityManager.showProgressAlert(getContext(), getString(R.string.wait));
-			new UserRequestHelperImpl().editProfile(txtName.getText().toString().trim(),
+			new UserRequestHelperImpl().editProfile(txtBD.getText().toString().trim(), txtName.getText().toString().trim(),
 					txtInfo.getText().toString().trim(), new APIHelper.PostManResponseListener() {
 						@Override
 						public void onResponse(Ancestor ancestor) {
@@ -141,6 +178,7 @@ public class EditUserFragment extends Fragment {
 			user.setInfo(signup.getInfo());
 			user.setcImage(signup.getcImage());
 			user.setImage(signup.getImage());
+			user.setBirthDay(signup.getBirthDay());
 			UserSessionManager.getInstance().createUser(JsonService.toJsonNode(user).toString());
 			if (getActivity() != null)
 				Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT).show();
@@ -151,11 +189,15 @@ public class EditUserFragment extends Fragment {
 
 	private boolean valid() {
 		if (TextUtils.isEmpty(txtName.getText().toString().trim())) {
-			txtName.setError("Name Cannot be empty");
+			txtName.setError("Name cannot be empty");
 			return false;
 		}
 		if (TextUtils.isEmpty(txtInfo.getText().toString().trim())) {
-			txtInfo.setError("Info Cannot be empty");
+			txtInfo.setError("Info cannot be empty");
+			return false;
+		}
+		if (TextUtils.isEmpty(txtBD.getText().toString().trim())) {
+			txtInfo.setError("Birthday cannot be empty");
 			return false;
 		}
 		return true;

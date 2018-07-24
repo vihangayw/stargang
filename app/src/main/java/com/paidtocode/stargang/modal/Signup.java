@@ -19,6 +19,7 @@ public class Signup implements Serializable {
 	private String cImage;
 	private String info;
 	private String token;
+	private String birthDay;
 	private List<UserType> type;
 
 	public Signup() {
@@ -27,6 +28,14 @@ public class Signup implements Serializable {
 	public Signup(String image, List<UserType> type) {
 		this.image = image;
 		this.type = type;
+	}
+
+	public String getBirthDay() {
+		return birthDay;
+	}
+
+	public void setBirthDay(String birthDay) {
+		this.birthDay = birthDay;
 	}
 
 	public String getId() {

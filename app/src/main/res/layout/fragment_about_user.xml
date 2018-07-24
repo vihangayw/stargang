@@ -68,4 +68,24 @@
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_15sdp" />
 
+    <TextView
+        android:id="@+id/lbl_bd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_9sdp"
+        android:fontFamily="@font/sanfranciscotext_regular"
+        android:text="Info"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="@dimen/_13sdp" />
+
+    <TextView
+        android:id="@+id/txt_bd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_9sdp"
+        android:fontFamily="@font/sanfranciscotext_medium"
+        android:paddingBottom="@dimen/_5sdp"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_15sdp" />
+
 </LinearLayout>
