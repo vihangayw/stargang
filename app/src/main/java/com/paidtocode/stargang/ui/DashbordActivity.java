@@ -9,8 +9,8 @@ import android.view.MenuItem;
 
 import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.ui.adapter.ViewPagerAdapter;
-import com.paidtocode.stargang.ui.fragment.EndFragment;
 import com.paidtocode.stargang.ui.fragment.HomeFragment;
+import com.paidtocode.stargang.ui.fragment.QuestionsFragment;
 import com.paidtocode.stargang.ui.fragment.SubscriptionFragment;
 import com.paidtocode.stargang.ui.fragment.UserFragment;
 
@@ -19,7 +19,7 @@ public class DashbordActivity extends AppCompatActivity implements
 
 	private ViewPager viewPager;
 	private final int[] navItems = new int[]{R.id.navigation_home, R.id.navigation_dashboard,
-			R.id.navigation_notifications, R.id.navigation_s};
+			R.id.navigation_notifications, R.id.navigation_qs};
 	private BottomNavigationView navigation;
 	private SubscriptionFragment subscriptionFragment;
 
@@ -42,7 +42,7 @@ public class DashbordActivity extends AppCompatActivity implements
 		adapter.addFragment(HomeFragment.newInstance(), "Home");
 		adapter.addFragment(subscriptionFragment, "Subscribe");
 		adapter.addFragment(UserFragment.newInstance(), "User");
-		adapter.addFragment(EndFragment.newInstance(), "E");
+		adapter.addFragment(QuestionsFragment.newInstance(), "Questions");
 		viewPager.setAdapter(adapter);
 
 	}
@@ -81,7 +81,7 @@ public class DashbordActivity extends AppCompatActivity implements
 			case R.id.navigation_notifications:
 				viewPager.setCurrentItem(2);
 				return true;
-			case R.id.navigation_s:
+			case R.id.navigation_qs:
 				viewPager.setCurrentItem(3);
 				return true;
 		}

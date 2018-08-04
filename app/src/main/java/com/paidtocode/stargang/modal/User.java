@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Created by vihanga on 7/21/18 in stargang.
  */
+
 public class User implements Serializable {
 
 	private String id;
@@ -16,9 +17,18 @@ public class User implements Serializable {
 	private String image;
 	private String info;
 	private boolean subscribe;
+	private int dateRemaining;
 	private List<UserType> type;
 
 	public User() {
+	}
+
+	public int getDateRemaining() {
+		return dateRemaining;
+	}
+
+	public void setDateRemaining(int dateRemaining) {
+		this.dateRemaining = dateRemaining;
 	}
 
 	public String getId() {

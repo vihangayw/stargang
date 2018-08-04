@@ -20,6 +20,7 @@ public class APIURLHelper {
 	private static final String USER_PROFILE = "/userInfo";
 	private static final String RESET_PW = "/resetPassword";
 	private static final String ADD_COMMENT = "/addComment";
+	private static final String QUESTIONS = "/question";
 	private static final String VIEW_COMMENT = "/viewComment";
 	private static final String LIKE = "/like";
 
@@ -65,6 +66,10 @@ public class APIURLHelper {
 
 	public static String getAddCommentURL() {
 		return BASE_URL.concat(ADD_COMMENT);
+	}
+
+	public static String getQuestoinstURL() {
+		return BASE_URL.concat(QUESTIONS);
 	}
 
 	public static String getViewCommentURL() {
