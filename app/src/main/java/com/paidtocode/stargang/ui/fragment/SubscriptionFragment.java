@@ -18,8 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.APIHelper;
@@ -54,7 +59,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 	private int page;
 	private EndlessRecyclerViewScrollListener endlessRecyclerViewScrollListener;
 	private RecyclerView recyclerView;
-	Handler handler = new Handler();
+	private Handler handler = new Handler();
 	private UserAdapter userAdapter;
 	private EditText txtSearch;
 	private AlertDialog alertDialog;
@@ -219,9 +224,61 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 		if (userAdapter != null && userAdapter.getItemCount() > position) {
 			final User user = userAdapter.getUsers().get(position);
 			if (user != null) {
-				proceedSubs(user);
+				if (user.isSubscribe())
+					proceedSubs(user);
+				else if (user.getDateRemaining() > 0) {
+					subsPopup(user);
+				} else {
+					proceedSubs(user);
+				}
 			}
 		}
+	}
+
+	private void subsPopup(final User user) {
+		if (getActivity() == null) return;
+		MaterialDialog.Builder builder = new MaterialDialog.Builder(getActivity())
+				.customView(R.layout.layout_subs, true).cancelable(true);
+		final MaterialDialog dialog = builder.build();
+		View customView = dialog.getCustomView();
+		if (customView != null) {
+//			RelativeLayout relativeLayout = customView.findViewById(R.id.layout_dialog);
+//			FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) relativeLayout.getLayoutParams();
+//			layoutParams.height = getHeight(0) - 40;
+//			relativeLayout.setLayoutParams(layoutParams);
+
+			ImageView imgUser = customView.findViewById(R.id.img_user);
+			final TextView txtName = customView.findViewById(R.id.txt_name);
+			final TextView txtMessage = customView.findViewById(R.id.msg);
+			final View btnSub = customView.findViewById(R.id.btn_sub);
+
+			if (!TextUtils.isEmpty(user.getFullName())) {
+				txtName.setText(user.getFullName().trim());
+			} else {
+				txtName.setText("");
+			}
+			if (!TextUtils.isEmpty(user.getImage())) {
+				Glide.with(getActivity())
+						.load(user.getImage())
+						.crossFade()
+						.diskCacheStrategy(DiskCacheStrategy.ALL)
+						.into(imgUser);
+			} else {
+				Glide.with(getActivity())
+						.load(R.drawable.ic_user)
+						.crossFade()
+						.into(imgUser);
+			}
+			txtMessage.setText("You have a " + user.getDateRemaining() + " days free subscription");
+			btnSub.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+					proceedSubs(user);
+				}
+			});
+		}
+		dialog.show();
 	}
 
 	private void proceedSubs(final User user) {
