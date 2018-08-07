@@ -1,5 +1,6 @@
 package com.paidtocode.stargang.modal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
@@ -11,8 +12,18 @@ public class Question implements Serializable {
 	private String qID;
 	private String question;
 	private List<Option> option;
+	@JsonIgnore
+	private String selectedAns;
 
 	public Question() {
+	}
+
+	public String getSelectedAns() {
+		return selectedAns;
+	}
+
+	public void setSelectedAns(String selectedAns) {
+		this.selectedAns = selectedAns;
 	}
 
 	public String getqID() {
