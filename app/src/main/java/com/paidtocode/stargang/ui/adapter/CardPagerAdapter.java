@@ -7,11 +7,10 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.modal.Option;
@@ -42,6 +41,10 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 
 	public float getBaseElevation() {
 		return mBaseElevation;
+	}
+
+	public List<Question> getmData() {
+		return mData;
 	}
 
 	@Override
@@ -90,14 +93,14 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 		mViews.set(position, null);
 	}
 
-	private void bind(Question item, View view) {
+	private void bind(final Question item, View view) {
 		TextView txtTime = view.findViewById(R.id.txt_time);
 		RadioButton option1 = view.findViewById(R.id.option1);
 		RadioButton option2 = view.findViewById(R.id.option2);
 		RadioButton option3 = view.findViewById(R.id.option3);
 		RadioButton option4 = view.findViewById(R.id.option4);
 		final RadioGroup radioGroup = view.findViewById(R.id.radioGroup1);
-		Button button = view.findViewById(R.id.btn_submit);
+//		Button button = view.findViewById(R.id.btn_submit);
 		if (item.getOption() != null) {
 			List<Option> options = item.getOption();
 			for (int i = 0, option5Size = options.size(); i < option5Size; i++) {
@@ -112,31 +115,30 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 					option4.setText(option.getAnswers());
 			}
 		}
-
-		button.setOnClickListener(new View.OnClickListener() {
+		option1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
-			public void onClick(View view) {
-				int checkedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-				switch (checkedRadioButtonId) {
-					case R.id.option1:
-						Toast.makeText(context, "Selected 1", Toast.LENGTH_SHORT).show();
-						break;
-					case R.id.option2:
-						Toast.makeText(context, "Selected 2", Toast.LENGTH_SHORT).show();
-						break;
-					case R.id.option3:
-						Toast.makeText(context, "Selected 3", Toast.LENGTH_SHORT).show();
-						break;
-					case R.id.option4:
-						Toast.makeText(context, "Selected 4", Toast.LENGTH_SHORT).show();
-						break;
-
-					default:
-						Toast.makeText(context, "Select an answer", Toast.LENGTH_SHORT).show();
-				}
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (b) item.setSelectedAns(item.getOption().get(0).getQaID());
 			}
 		});
-
+		option2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (b) item.setSelectedAns(item.getOption().get(1).getQaID());
+			}
+		});
+		option3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (b) item.setSelectedAns(item.getOption().get(2).getQaID());
+			}
+		});
+		option4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (b) item.setSelectedAns(item.getOption().get(3).getQaID());
+			}
+		});
 		txtTime.setText(item.getQuestion());
 	}
 

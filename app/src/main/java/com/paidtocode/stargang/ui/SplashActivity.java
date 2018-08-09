@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.paidtocode.stargang.R;
@@ -27,6 +30,9 @@ public class SplashActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_splash);
 		if (UserSessionManager.getInstance().getExp() == null)
 			UserSessionManager.getInstance().creataEXP();
@@ -39,14 +45,29 @@ public class SplashActivity extends AppCompatActivity {
 		}
 		if (UserSessionManager.getInstance().isLogin()) {
 			if (checkNetwork())
-				fetchUser();
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						fetchUser();
+					}
+				}, 950);
 			else {
-				startActivity(new Intent(this, DashbordActivity.class));
-				finish();
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						startActivity(new Intent(SplashActivity.this, DashbordActivity.class));
+						finish();
+					}
+				}, 1500);
 			}
 		} else {
-			startActivity(new Intent(this, LoginActivity.class));
-			finish();
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+					finish();
+				}
+			}, 1500);
 		}
 	}
 

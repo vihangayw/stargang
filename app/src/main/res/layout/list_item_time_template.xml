@@ -68,17 +68,17 @@
 
         </RadioGroup>
 
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:background="@color/colorAccent"
-            android:padding="@dimen/_8sdp"
-            android:text="    Submit    "
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_13sdp" />
+        <!--<Button-->
+        <!--android:id="@+id/btn_submit"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="@dimen/_12sdp"-->
+        <!--android:background="@color/colorAccent"-->
+        <!--android:padding="@dimen/_8sdp"-->
+        <!--android:text="    Submit    "-->
+        <!--android:textColor="@color/colorWhite"-->
+        <!--android:textSize="@dimen/_13sdp" />-->
 
     </LinearLayout>
 
