@@ -34,6 +34,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 	private TextView txtConfirmPassword;
 	private Button btnSubmit;
 	private String mobileNo;
+	private View layoutLogin;
 
 	public static boolean isValidEmail(CharSequence target) {
 		return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
@@ -53,6 +54,7 @@ public class RegisterDetailActivity extends AppCompatActivity {
 		txtPassword = findViewById(R.id.txt_pw);
 		txtConfirmPassword = findViewById(R.id.txt_cpw);
 		btnSubmit = findViewById(R.id.btn_register);
+		layoutLogin = findViewById(R.id.layout_account);
 		Bundle extras = getIntent().getExtras();
 		if (extras != null)
 			mobileNo = extras.getString("mobile_number");
@@ -65,6 +67,13 @@ public class RegisterDetailActivity extends AppCompatActivity {
 				if (valid()) {
 					registerUser();
 				}
+			}
+		});
+		layoutLogin.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				startActivity(new Intent(RegisterDetailActivity.this, LoginActivity.class));
+				finish();
 			}
 		});
 	}

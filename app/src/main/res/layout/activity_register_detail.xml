@@ -1,107 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".ui.RegisterDetailActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/img_bg"
+	tools:context=".ui.RegisterDetailActivity">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_20sdp">
+	<android.support.v7.widget.CardView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:layout_marginEnd="@dimen/_23sdp"
+		android:layout_marginStart="@dimen/_23sdp"
+		app:cardBackgroundColor="@color/colorGrayEEE"
+		app:cardCornerRadius="@dimen/_10sdp">
 
-        <TextView
-            android:id="@+id/lbl_mobile_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/sanfranciscotext_regular"
-            android:text="Email Address"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+		<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center">
 
-        <EditText
-            android:id="@+id/txt_email"
-            android:layout_width="match_parent"
-            android:maxLines="1"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lbl_mobile_no"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:background="@drawable/edittext_line"
-            android:fontFamily="@font/sanfranciscotext_medium"
-            android:inputType="textEmailAddress"
-            android:paddingBottom="@dimen/_5sdp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
 
-        <TextView
-            android:id="@+id/lbl_pw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_email"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:fontFamily="@font/sanfranciscotext_regular"
-            android:text="Password"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+			<EditText
+				android:id="@+id/txt_email"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/lbl_mobile_no"
+				android:layout_marginEnd="@dimen/_8sdp"
+				android:layout_marginStart="@dimen/_8sdp"
+				android:layout_marginTop="@dimen/_29sdp"
+				android:background="@drawable/textview_bg_round_"
+				android:fontFamily="@font/sanfranciscotext_regular"
+				android:hint="Email Address"
+				android:inputType="textEmailAddress"
+				android:maxLines="1"
+				android:paddingBottom="@dimen/_7sdp"
+				android:paddingEnd="@dimen/_12sdp"
+				android:paddingStart="@dimen/_12sdp"
+				android:paddingTop="@dimen/_7sdp"
+				android:textColor="@color/colorBlack"
+				android:textColorHint="@color/colorGray999"
+				android:textSize="@dimen/_15sdp" />
 
-        <EditText
-            android:id="@+id/txt_pw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lbl_pw"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:maxLines="1"
-            android:background="@drawable/edittext_line"
-            android:fontFamily="@font/sanfranciscotext_medium"
-            android:inputType="textPassword"
-            android:paddingBottom="@dimen/_5sdp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+			<EditText
+				android:id="@+id/txt_pw"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/txt_email"
+				android:layout_marginEnd="@dimen/_8sdp"
+				android:layout_marginStart="@dimen/_8sdp"
+				android:layout_marginTop="@dimen/_40sdp"
+				android:background="@drawable/textview_bg_round_"
+				android:fontFamily="@font/sanfranciscotext_regular"
+				android:hint="Password"
+				android:inputType="textPassword"
+				android:maxLines="1"
+				android:paddingBottom="@dimen/_7sdp"
+				android:paddingEnd="@dimen/_12sdp"
+				android:paddingStart="@dimen/_12sdp"
+				android:paddingTop="@dimen/_7sdp"
+				android:textColor="@color/colorBlack"
+				android:textColorHint="@color/colorGray999"
+				android:textSize="@dimen/_15sdp" />
 
-        <TextView
-            android:id="@+id/lbl_cpw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_pw"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:fontFamily="@font/sanfranciscotext_regular"
-            android:text="Confirm Password"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+			<EditText
+				android:id="@+id/txt_cpw"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/txt_pw"
+				android:layout_marginEnd="@dimen/_8sdp"
+				android:layout_marginStart="@dimen/_8sdp"
+				android:layout_marginTop="@dimen/_21sdp"
+				android:background="@drawable/textview_bg_round_"
+				android:fontFamily="@font/sanfranciscotext_regular"
+				android:hint="Confirm Password"
+				android:inputType="textPassword"
+				android:maxLines="1"
+				android:paddingBottom="@dimen/_7sdp"
+				android:paddingEnd="@dimen/_12sdp"
+				android:paddingStart="@dimen/_12sdp"
+				android:paddingTop="@dimen/_7sdp"
+				android:textColor="@color/colorBlack"
+				android:textColorHint="@color/colorGray999"
+				android:textSize="@dimen/_15sdp" />
 
-        <EditText
-            android:id="@+id/txt_cpw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/lbl_cpw"
-            android:maxLines="1"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:background="@drawable/edittext_line"
-            android:fontFamily="@font/sanfranciscotext_medium"
-            android:inputType="textPassword"
-            android:paddingBottom="@dimen/_5sdp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+			<Button
+				android:id="@+id/btn_register"
+				android:layout_width="match_parent"
+				android:layout_height="@dimen/_38sdp"
+				android:layout_below="@id/txt_cpw"
+				android:layout_centerHorizontal="true"
+				android:layout_marginEnd="@dimen/_25sdp"
+				android:layout_marginStart="@dimen/_25sdp"
+				android:layout_marginTop="@dimen/_27sdp"
+				android:background="@drawable/register_button"
+				android:fontFamily="@font/sanfranciscotext_medium"
+				android:gravity="center"
+				android:padding="@dimen/_9sdp"
+				android:text="Register"
+				android:textAllCaps="false"
+				android:textColor="@color/colorWhite"
+				android:textSize="@dimen/_15sdp" />
 
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_cpw"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/btn_round_blue"
-            android:fontFamily="@font/sanfranciscotext_medium"
-            android:gravity="center"
-            android:padding="@dimen/_8sdp"
-            android:text="Register"
-            android:textAllCaps="false"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+			<RelativeLayout
+				android:id="@+id/layout_account"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/btn_register"
+				android:layout_centerHorizontal="true"
+				android:layout_marginBottom="@dimen/_22sdp"
+				android:layout_marginTop="@dimen/_8sdp">
 
-    </RelativeLayout>
+				<TextView
+					android:id="@+id/lbl_have_acc"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/_6sdp"
+					android:fontFamily="@font/sanfranciscotext_regular"
+					android:text="Already have an account?"
+					android:textColor="@color/colorGray999"
+					android:textSize="@dimen/_12sdp" />
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="@dimen/_4sdp"
+					android:layout_marginTop="@dimen/_6sdp"
+					android:layout_toEndOf="@id/lbl_have_acc"
+					android:fontFamily="@font/sanfranciscotext_medium"
+					android:text="LOGIN"
+					android:textColor="@color/colorBlue"
+					android:textSize="@dimen/_12sdp" />
+
+			</RelativeLayout>
+
+		</RelativeLayout>
+
+	</android.support.v7.widget.CardView>
+
 
 </android.support.design.widget.CoordinatorLayout>

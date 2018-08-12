@@ -3,74 +3,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/img_bg"
     tools:context=".ui.RegisterDetailActivity">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/_20sdp"
-        android:layout_marginStart="@dimen/_20sdp">
+        android:layout_gravity="center">
 
-        <TextView
+        <ImageView
             android:id="@+id/lbl_mobile_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/notosanssinhala_regular"
-            android:text="Email Address"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="@dimen/_95sdp"
+            android:layout_centerHorizontal="true"
+            android:paddingStart="@dimen/_5sdp"
+            android:src="@drawable/logo_hires" />
 
         <EditText
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/lbl_mobile_no"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:background="@drawable/edittext_line"
-            android:fontFamily="@font/sanfranciscotext_medium"
+            android:layout_marginEnd="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_40sdp"
             android:inputType="textEmailAddress"
-            android:paddingBottom="@dimen/_5sdp"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
-
-        <TextView
-            android:id="@+id/lbl_pw"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_email"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:fontFamily="@font/notosanssinhala_regular"
-            android:text="Password"
-            android:textColor="@color/colorWhite"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:background="@drawable/textview_bg_round"
+            android:fontFamily="@font/sanfranciscotext_regular"
+            android:hint="Email Address"
+            android:paddingBottom="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorGray999"
             android:textSize="@dimen/_15sdp" />
 
         <EditText
             android:id="@+id/txt_pw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lbl_pw"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:background="@drawable/edittext_line"
-            android:fontFamily="@font/sanfranciscotext_medium"
+            android:layout_below="@id/txt_email"
+            android:layout_marginEnd="@dimen/_40sdp"
+            android:layout_marginStart="@dimen/_40sdp"
             android:inputType="textPassword"
-            android:paddingBottom="@dimen/_5sdp"
-            android:textColor="@color/colorWhite"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:background="@drawable/textview_bg_round"
+            android:fontFamily="@font/sanfranciscotext_regular"
+            android:hint="Passwords"
+            android:paddingBottom="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_12sdp"
+            android:paddingStart="@dimen/_12sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorGray999"
             android:textSize="@dimen/_15sdp" />
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_38sdp"
+            android:layout_alignEnd="@id/txt_mobile"
+            android:layout_alignStart="@id/txt_mobile"
             android:layout_below="@id/txt_pw"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:background="@drawable/btn_round_blue"
+            android:layout_marginEnd="@dimen/_50sdp"
+            android:layout_marginStart="@dimen/_50sdp"
+            android:layout_marginTop="@dimen/_22sdp"
+            android:background="@drawable/submit_button"
             android:fontFamily="@font/sanfranciscotext_medium"
             android:gravity="center"
-            android:padding="@dimen/_8sdp"
-            android:text="Login"
+            android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/_15sdp" />
@@ -80,7 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_register"
-            android:layout_marginTop="@dimen/_8sdp">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_15sdp">
 
             <TextView
                 android:id="@+id/lbl_have_acc"
@@ -100,7 +104,7 @@
                 android:layout_toEndOf="@id/lbl_have_acc"
                 android:fontFamily="@font/sanfranciscotext_medium"
                 android:text="REGISTER"
-                android:textColor="@color/colorBlue"
+                android:textColor="@color/colorGOld"
                 android:textSize="@dimen/_12sdp" />
 
         </RelativeLayout>
