@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGrayEEE"
     android:id="@+id/swipe_refresh"
     android:orientation="vertical"
     tools:context=".ui.fragment.PhotoFragment">
@@ -28,7 +27,7 @@
             android:fontFamily="@font/sanfranciscotext_medium"
             android:paddingBottom="@dimen/_5sdp"
             android:text="No Images"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorGray999"
             android:textSize="@dimen/_12sdp" />
 
         <android.support.design.widget.FloatingActionButton

@@ -39,10 +39,10 @@ public class DashbordActivity extends AppCompatActivity implements
 		viewPager = findViewById(R.id.viewPager);
 		viewPager.setOffscreenPageLimit(4);
 		subscriptionFragment = SubscriptionFragment.newInstance();
-		adapter.addFragment(HomeFragment.newInstance(), "Home");
-		adapter.addFragment(subscriptionFragment, "Subscribe");
-		adapter.addFragment(UserFragment.newInstance(), "User");
-		adapter.addFragment(QuestionsFragment.newInstance(), "Questions");
+		adapter.addFragment(subscriptionFragment, "Recent");
+		adapter.addFragment(HomeFragment.newInstance(), "Top Rated");
+		adapter.addFragment(UserFragment.newInstance(), "Downloads");
+		adapter.addFragment(QuestionsFragment.newInstance(), "Bookmarks");
 		viewPager.setAdapter(adapter);
 
 	}

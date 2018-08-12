@@ -52,13 +52,14 @@
 
     <TextView
         android:id="@+id/btn_sub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+	    android:layout_width="@dimen/_88sdp"
+	    android:layout_height="@dimen/_38sdp"
         android:layout_below="@id/msg"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:background="@drawable/btn_round_blue"
+	    android:background="@drawable/subscribe_button"
+	    android:gravity="center"
         android:fontFamily="@font/sanfranciscotext_regular"
         android:padding="@dimen/_7sdp"
         android:text="@string/subscribe"

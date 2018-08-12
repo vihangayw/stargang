@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
+	android:background="@drawable/img_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.DashbordActivity">
@@ -15,10 +16,11 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
+	    android:theme="@style/AppTheme1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+	    app:itemIconTint="@color/bottom_nav_icon_color_selector"
         android:layout_alignParentBottom="true"
-        android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
 
 </RelativeLayout>

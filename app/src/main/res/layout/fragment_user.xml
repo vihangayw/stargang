@@ -12,7 +12,7 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+	    android:background="@color/colorAccent"
         android:paddingBottom="@dimen/_30sdp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingStart="@dimen/_12sdp"
@@ -53,7 +53,7 @@
                 android:layout_marginTop="@dimen/_4sdp"
                 android:fontFamily="@font/sanfranciscotext_regular"
                 android:text="View and Edit Profile"
-                android:textColor="@color/colorGrayEEE"
+	            android:textColor="@color/colorGray"
                 android:textSize="@dimen/_11sdp" />
 
             <ImageView
@@ -64,7 +64,7 @@
                 android:layout_marginTop="-1dp"
                 android:layout_toEndOf="@id/btn_sub"
                 android:src="@drawable/ic_edit"
-                android:tint="@color/colorGrayEEE" />
+	            android:tint="@color/colorGray" />
 
         </RelativeLayout>
 
@@ -96,14 +96,14 @@
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingStart="@dimen/_12sdp"
                     android:text="Change Password"
-                    android:textColor="@color/colorBlack"
+	                android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_13sdp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorGrayEEE" />
+	                android:background="@color/colorGray999" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -122,14 +122,14 @@
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingStart="@dimen/_12sdp"
                     android:text="Help and Support"
-                    android:textColor="@color/colorBlack"
+	                android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_13sdp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorGrayEEE" />
+	                android:background="@color/colorGray999" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -144,7 +144,7 @@
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingStart="@dimen/_12sdp"
                     android:text="Version"
-                    android:textColor="@color/colorBlack"
+	                android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_13sdp" />
 
                 <TextView
@@ -157,14 +157,14 @@
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingStart="@dimen/_12sdp"
                     android:text="1.0.0"
-                    android:textColor="@color/colorBlack"
+	                android:textColor="@color/colorWhite"
                     android:textSize="@dimen/_13sdp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorGrayEEE" />
+	                android:background="@color/colorGray999" />
 
             </RelativeLayout>
 
@@ -184,14 +184,14 @@
                     android:paddingEnd="@dimen/_12sdp"
                     android:paddingStart="@dimen/_12sdp"
                     android:text="Logout"
-                    android:textColor="#2e0202"
+	                android:textColor="@color/colorGrayEEE"
                     android:textSize="@dimen/_13sdp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorGrayEEE" />
+	                android:background="@color/colorGray999" />
             </RelativeLayout>
 
         </LinearLayout>

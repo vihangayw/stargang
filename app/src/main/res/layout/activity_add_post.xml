@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
+    android:background="@drawable/img_bg"
     tools:context=".ui.AddPostActivity">
 
     <include
@@ -27,18 +27,18 @@
         android:overScrollMode="always"
         android:padding="@dimen/_12sdp"
         android:paddingBottom="@dimen/_4sdp"
+        android:textColor="@color/colorWhite"
         android:scrollHorizontally="false"
         android:scrollbarStyle="insideInset"
         android:scrollbars="vertical"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorBlack"
+        android:textColorHint="@color/colorGray999"
         android:textSize="@dimen/_15sdp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/txt_caption"
-        android:background="@color/colorGrayEEE" />
+        android:layout_below="@id/txt_caption" />
 
 </RelativeLayout>

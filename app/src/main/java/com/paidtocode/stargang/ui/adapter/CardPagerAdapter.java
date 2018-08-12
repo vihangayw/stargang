@@ -1,7 +1,10 @@
 package com.paidtocode.stargang.ui.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -9,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.paidtocode.stargang.R;
@@ -99,7 +101,33 @@ public class CardPagerAdapter extends PagerAdapter implements CardAdapter {
 		RadioButton option2 = view.findViewById(R.id.option2);
 		RadioButton option3 = view.findViewById(R.id.option3);
 		RadioButton option4 = view.findViewById(R.id.option4);
-		final RadioGroup radioGroup = view.findViewById(R.id.radioGroup1);
+		if (Build.VERSION.SDK_INT >= 21) {
+
+			ColorStateList colorStateList = new ColorStateList(
+					new int[][]{
+
+							new int[]{-android.R.attr.state_enabled}, //disabled
+							new int[]{android.R.attr.state_enabled} //enabled
+					},
+					new int[]{
+
+							ContextCompat.getColor(context, R.color.colorGrayEEE) //disabled
+							,
+							ContextCompat.getColor(context, R.color.colorAccent) //enabled
+
+					}
+			);
+
+			option1.setButtonTintList(colorStateList);//set the color tint list
+			option1.invalidate();
+			option2.setButtonTintList(colorStateList);//set the color tint list
+			option2.invalidate();
+			option3.setButtonTintList(colorStateList);//set the color tint list
+			option3.invalidate();
+			option4.setButtonTintList(colorStateList);//set the color tint list
+			option4.invalidate(); //could not be necessary
+		}
+//		final RadioGroup radioGroup = view.findViewById(R.id.radioGroup1);
 //		Button button = view.findViewById(R.id.btn_submit);
 		if (item.getOption() != null) {
 			List<Option> options = item.getOption();
