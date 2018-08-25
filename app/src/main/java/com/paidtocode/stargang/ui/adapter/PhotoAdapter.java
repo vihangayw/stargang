@@ -116,11 +116,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 			}
 			if (!TextUtils.isEmpty(post.getpText())) {
 				holder.txtCaption.setVisibility(View.VISIBLE);
-				holder.hr.setVisibility(View.VISIBLE);
 				holder.txtCaption.setText(post.getpText().trim());
 			} else {
 				holder.txtCaption.setVisibility(View.VISIBLE);
-				holder.hr.setVisibility(View.VISIBLE);
 			}
 			showUserImage(user, holder);
 			List<Image> images = post.getImages();
@@ -302,7 +300,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 		final ImageView imgComment;
 		final ImageView img1;
 		final ImageView img2;
-		final View hr;
 		final View overlay;
 		final View btnComment;
 
@@ -310,7 +307,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 			super(itemView);
 			btnComment = itemView.findViewById(R.id.btn_comment);
 			txtCaption = itemView.findViewById(R.id.txt_caption);
-			hr = itemView.findViewById(R.id.hr0);
 			overlay = itemView.findViewById(R.id.overlay);
 			txtName = itemView.findViewById(R.id.txt_name);
 			txtTime = itemView.findViewById(R.id.txt_time);

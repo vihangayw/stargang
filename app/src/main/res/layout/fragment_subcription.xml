@@ -1,46 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.SubscriptionFragment">
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/colorAccent_"
+	tools:context=".ui.fragment.SubscriptionFragment">
 
-    <EditText
-        android:id="@+id/txt_search"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_3sdp"
-        android:background="@drawable/edit"
-        android:fontFamily="@font/sanfranciscotext_medium"
-        android:hint="Search"
-        android:inputType="textPersonName"
-        android:paddingEnd="@dimen/_8sdp"
-        android:paddingStart="@dimen/_8sdp"
-	    android:textColor="@color/colorWhite"
-	    android:textColorHint="@color/colorGray999"
-        android:textSize="@dimen/_14sdp" />
-
-	<android.support.v7.widget.CardView
+	<EditText
+		android:id="@+id/txt_search"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="@dimen/_35sdp"
+		android:layout_marginBottom="@dimen/_10sdp"
+		android:layout_marginEnd="@dimen/_12sdp"
+		android:layout_marginStart="@dimen/_12sdp"
+		android:layout_marginTop="@dimen/_10sdp"
+		android:background="@drawable/edit"
+		android:fontFamily="@font/sanfranciscotext_medium"
+		android:hint="Search"
+		android:inputType="textPersonName"
+		android:paddingEnd="@dimen/_8sdp"
+		android:paddingStart="@dimen/_8sdp"
+		android:textColor="@color/colorWhite"
+		android:textColorHint="@color/colorGray999"
+		android:textSize="@dimen/_14sdp" />
+
+	<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:id="@+id/recycler_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
 		android:layout_below="@id/txt_search"
-		android:layout_marginEnd="@dimen/_10sdp"
-		android:layout_marginStart="@dimen/_10sdp"
-		android:layout_marginTop="@dimen/_12sdp"
-		android:background="@color/colorGrayEEE"
-		app:cardCornerRadius="@dimen/_10sdp">
-
-		<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-			xmlns:tools="http://schemas.android.com/tools"
-			android:id="@+id/recycler_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:overScrollMode="never"
-			tools:context=".ui.fragment.SubscriptionFragment" />
-
-	</android.support.v7.widget.CardView>
-
+		android:background="@color/colorGray999"
+		android:overScrollMode="never"
+		tools:context=".ui.fragment.SubscriptionFragment" />
 </RelativeLayout>

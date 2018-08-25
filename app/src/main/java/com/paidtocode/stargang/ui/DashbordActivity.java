@@ -13,6 +13,7 @@ import com.paidtocode.stargang.ui.fragment.HomeFragment;
 import com.paidtocode.stargang.ui.fragment.QuestionsFragment;
 import com.paidtocode.stargang.ui.fragment.SubscriptionFragment;
 import com.paidtocode.stargang.ui.fragment.UserFragment;
+import com.paidtocode.stargang.util.BottomNavigationViewHelper;
 
 public class DashbordActivity extends AppCompatActivity implements
 		BottomNavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +35,7 @@ public class DashbordActivity extends AppCompatActivity implements
 
 	private void initializeViews() {
 		navigation = findViewById(R.id.navigation);
-
+		BottomNavigationViewHelper.removeShiftMode(navigation);
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		viewPager = findViewById(R.id.viewPager);
 		viewPager.setOffscreenPageLimit(4);

@@ -113,11 +113,9 @@ public class WallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			}
 			if (!TextUtils.isEmpty(wall.getPostText())) {
 				holder.txtCaption.setVisibility(View.VISIBLE);
-				holder.hr.setVisibility(View.VISIBLE);
 				holder.txtCaption.setText(wall.getPostText().trim());
 			} else {
 				holder.txtCaption.setVisibility(View.VISIBLE);
-				holder.hr.setVisibility(View.VISIBLE);
 			}
 			showUserImage(new Signup(), holder); //// TODO: 7/22/18  harcoded
 			List<WallImage> images = wall.getImages();
@@ -298,7 +296,6 @@ public class WallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		final ImageView imgComment;
 		final ImageView img1;
 		final ImageView img2;
-		final View hr;
 		final View overlay;
 		final View layoutComment;
 		final View btnComment;
@@ -307,7 +304,6 @@ public class WallAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 			super(itemView);
 			btnComment = itemView.findViewById(R.id.btn_comment);
 			txtCaption = itemView.findViewById(R.id.txt_caption);
-			hr = itemView.findViewById(R.id.hr0);
 			overlay = itemView.findViewById(R.id.overlay);
 			layoutComment = itemView.findViewById(R.id.layout_comments);
 			txtName = itemView.findViewById(R.id.txt_name);

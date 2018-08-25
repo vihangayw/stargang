@@ -8,8 +8,8 @@
 
 	<ImageView
 		android:id="@+id/logo"
-		android:layout_width="@dimen/_120sdp"
-		android:layout_height="@dimen/_120sdp"
+		android:layout_width="@dimen/_140sdp"
+		android:layout_height="@dimen/_140sdp"
 		android:layout_centerInParent="true"
 		android:src="@drawable/logo" />
 
@@ -18,7 +18,6 @@
 		android:layout_height="@dimen/_8sdp"
 		android:layout_below="@id/logo"
 		android:layout_centerHorizontal="true"
-		android:layout_marginTop="@dimen/_2sdp"
 		android:src="@drawable/text_1" />
 
 	<ImageView

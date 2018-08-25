@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layoutDirection="rtl">
 
-    <item
-        android:id="@+id/navigation_home"
-	    android:icon="@drawable/top_rated_icon"
-	    android:title="Top Rated" />
+	<item
+		android:id="@+id/navigation_home"
+		android:icon="@drawable/star"
+		android:title="    " />
 
-    <item
-        android:id="@+id/navigation_dashboard"
-	    android:icon="@drawable/recents_icon"
-	    android:title="Recent" />
+	<item
+		android:id="@+id/navigation_dashboard"
+		android:icon="@drawable/feed"
+		android:title="   " />
 
-    <item
-        android:id="@+id/navigation_notifications"
-	    android:icon="@drawable/downloads_icon"
-	    android:title="Downloads" />
-    <item
-        android:id="@+id/navigation_qs"
-	    android:icon="@drawable/bookmark_icon"
-	    android:title="Bookmarks" />
+	<item
+		android:id="@+id/navigation_notifications"
+		android:icon="@drawable/profile"
+		android:title="  " />
+	<item
+		android:id="@+id/navigation_qs"
+		android:icon="@drawable/notification"
+		android:title=" " />
 
 </menu>

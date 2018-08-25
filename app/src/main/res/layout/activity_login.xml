@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_bg"
+	android:background="@drawable/login_bg"
     tools:context=".ui.RegisterDetailActivity">
 
     <RelativeLayout
@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/lbl_mobile_no"
-            android:layout_width="@dimen/_95sdp"
-            android:layout_height="@dimen/_95sdp"
+	        android:layout_width="@dimen/_100sdp"
+	        android:layout_height="@dimen/_100sdp"
             android:layout_centerHorizontal="true"
             android:paddingStart="@dimen/_5sdp"
             android:src="@drawable/logo_hires" />
@@ -37,7 +37,7 @@
             android:paddingTop="@dimen/_7sdp"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/colorGray999"
-            android:textSize="@dimen/_15sdp" />
+	        android:textSize="@dimen/_13sdp" />
 
         <EditText
             android:id="@+id/txt_pw"
@@ -57,18 +57,18 @@
             android:paddingTop="@dimen/_7sdp"
             android:textColor="@color/colorBlack"
             android:textColorHint="@color/colorGray999"
-            android:textSize="@dimen/_15sdp" />
+	        android:textSize="@dimen/_13sdp" />
 
         <Button
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_38sdp"
+	        android:layout_height="@dimen/_34sdp"
             android:layout_alignEnd="@id/txt_mobile"
             android:layout_alignStart="@id/txt_mobile"
             android:layout_below="@id/txt_pw"
             android:layout_centerHorizontal="true"
-            android:layout_marginEnd="@dimen/_50sdp"
-            android:layout_marginStart="@dimen/_50sdp"
+	        android:layout_marginEnd="@dimen/_40sdp"
+	        android:layout_marginStart="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_22sdp"
             android:background="@drawable/submit_button"
             android:fontFamily="@font/sanfranciscotext_medium"
@@ -76,7 +76,7 @@
             android:text="@string/submit"
             android:textAllCaps="false"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_15sdp" />
+	        android:textSize="@dimen/_13sdp" />
 
         <RelativeLayout
             android:id="@+id/layout_account"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_register"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/_15sdp">
+	        android:layout_marginTop="@dimen/_13sdp">
 
             <TextView
                 android:id="@+id/lbl_have_acc"

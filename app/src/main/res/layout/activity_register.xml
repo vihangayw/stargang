@@ -3,7 +3,7 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@drawable/img_bg"
+	android:background="@drawable/login_bg"
 	tools:context=".ui.RegisterActivity">
 
 	<RelativeLayout
@@ -13,10 +13,9 @@
 
 		<ImageView
 			android:id="@+id/lbl_mobile_no"
-			android:layout_width="@dimen/_95sdp"
-			android:layout_height="@dimen/_95sdp"
+			android:layout_width="@dimen/_100sdp"
+			android:layout_height="@dimen/_100sdp"
 			android:layout_centerHorizontal="true"
-			android:paddingStart="@dimen/_5sdp"
 			android:src="@drawable/logo_hires" />
 
 		<EditText
@@ -43,13 +42,13 @@
 		<Button
 			android:id="@+id/btn_submit"
 			android:layout_width="match_parent"
-			android:layout_height="@dimen/_38sdp"
+			android:layout_height="@dimen/_34sdp"
 			android:layout_alignEnd="@id/txt_mobile"
 			android:layout_alignStart="@id/txt_mobile"
 			android:layout_below="@id/txt_mobile"
 			android:layout_centerHorizontal="true"
-			android:layout_marginEnd="@dimen/_25sdp"
-			android:layout_marginStart="@dimen/_25sdp"
+			android:paddingEnd="@dimen/_12sdp"
+			android:paddingStart="@dimen/_12sdp"
 			android:layout_marginTop="@dimen/_22sdp"
 			android:background="@drawable/submit_button"
 			android:fontFamily="@font/sanfranciscotext_medium"

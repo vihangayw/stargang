@@ -101,11 +101,13 @@ public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 						.into(holder.imgUser);
 			}
 			if (user.isSubscribe()) {
-				holder.btnSubscribe.setText("Unsubscribe");
-				holder.btnSubscribe.setBackground(ContextCompat.getDrawable(context, R.drawable.register_button));
+				holder.btnSubscribe.setText("Unfollow");
+				holder.btnSubscribe.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+				holder.btnSubscribe.setBackground(ContextCompat.getDrawable(context, R.drawable.unfollow_button));
 			} else {
-				holder.btnSubscribe.setText("Subscribe");
-				holder.btnSubscribe.setBackground(ContextCompat.getDrawable(context, R.drawable.subscribe_button));
+				holder.btnSubscribe.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
+				holder.btnSubscribe.setText("Follow");
+				holder.btnSubscribe.setBackground(ContextCompat.getDrawable(context, R.drawable.follow_button));
 			}
 		}
 	}
