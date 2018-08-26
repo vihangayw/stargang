@@ -3,6 +3,7 @@ package com.paidtocode.stargang.ui.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import com.paidtocode.stargang.api.response.UserListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
 import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserList;
+import com.paidtocode.stargang.ui.ProfileActivity;
 import com.paidtocode.stargang.ui.adapter.UserAdapter;
 import com.paidtocode.stargang.util.UtilityManager;
 import com.paidtocode.stargang.util.WrapContentLinearLayoutManager;
@@ -102,7 +104,10 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 		@Override
 		public void run() {
 			page = 1;
-			if (userAdapter != null) userAdapter.getUsers().clear();
+			if (userAdapter != null) {
+				userAdapter.getUsers().clear();
+				userAdapter.notifyDataSetChanged();
+			}
 			searchProduct();
 		}
 	};
@@ -221,15 +226,29 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 
 	@Override
 	public void onComponentClick(View itemView, int position) {
-		if (userAdapter != null && userAdapter.getItemCount() > position) {
-			final User user = userAdapter.getUsers().get(position);
-			if (user != null) {
-				if (user.isSubscribe())
-					proceedSubs(user);
-				else if (user.getDateRemaining() > 0) {
-					subsPopup(user);
-				} else {
-					proceedSubs(user);
+		if (itemView.getId() == R.id.btn_sub) {
+			if (userAdapter != null && userAdapter.getItemCount() > position) {
+				User user = userAdapter.getUsers().get(position);
+				if (user != null) {
+					if (user.isSubscribe())
+						proceedSubs(user);
+					else if (user.getDateRemaining() > 0) {
+						subsPopup(user);
+					} else {
+						proceedSubs(user);
+					}
+				}
+			}
+		} else if (getActivity() != null) {
+			if (userAdapter != null && userAdapter.getItemCount() > position) {
+				User user = userAdapter.getUsers().get(position);
+				if (user != null) {
+					Intent intent = new Intent(getActivity(), ProfileActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putSerializable("user", user);
+					intent.putExtras(bundle);
+					intent.setAction("UserProfile");
+					startActivity(intent);
 				}
 			}
 		}

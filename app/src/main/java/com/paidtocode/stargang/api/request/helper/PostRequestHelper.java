@@ -11,6 +11,8 @@ public interface PostRequestHelper {
 
 	void getMyPost(int page, int limit, APIHelper.PostManResponseListener listener);
 
+	void getPost(String uid, int page, int limit, APIHelper.PostManResponseListener listener);
+
 	void addPost(String caption, APIHelper.PostManResponseListener listener);
 
 	void getWallPosts(int page, int limit, APIHelper.PostManResponseListener listener);

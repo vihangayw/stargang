@@ -1,10 +1,15 @@
 package com.paidtocode.stargang.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,11 +27,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.paidtocode.stargang.R;
+import com.paidtocode.stargang.StarGangApplication;
+import com.paidtocode.stargang.api.APIHelper;
+import com.paidtocode.stargang.api.request.helper.impl.UserRequestHelperImpl;
+import com.paidtocode.stargang.api.response.Ancestor;
+import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.modal.Signup;
+import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserType;
 import com.paidtocode.stargang.ui.adapter.ViewPagerAdapter;
 import com.paidtocode.stargang.ui.fragment.AboutUserFragment;
@@ -45,25 +57,43 @@ public class ProfileActivity extends AppCompatActivity {
 
 	private final int MY_PERMISSIONS_REQUEST_READ_STORAGE = 12;
 	private TextView txtName;
+	private TextView txtFollow;
+	private TextView txtEdit;
+	private View viewEdit;
 	private ImageView imgCover;
+	private ImageView imgFollow;
+	private ImageView imgEdit;
 	private ImageView imgProfilePic;
 	private TabLayout tabLayout;
 	private CoordinatorLayout coordinator;
 	private View btnCover, btnImage, overlay;
 	private boolean selectCover;
 	private boolean isAdmin;
+	private boolean isMyProfile;
+	private ViewPager viewPager;
+	private ViewPagerAdapter adapter;
+	private User user;
+	private AlertDialog alertDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_profile);
+		String action = getIntent().getAction();
+		isMyProfile = !TextUtils.isEmpty(action) && action.equalsIgnoreCase("MyProfile");
+
 		initializeComponents();
 		setHookListeners();
 	}
 
 	private void initializeComponents() {
 		txtName = findViewById(R.id.txt_name);
+		txtFollow = findViewById(R.id.txt_follow);
+		txtEdit = findViewById(R.id.txt_edit);
+		viewEdit = findViewById(R.id.layout_edit);
 		imgCover = findViewById(R.id.img_cover);
+		imgFollow = findViewById(R.id.img_follow);
+		imgEdit = findViewById(R.id.img_edit);
 		imgProfilePic = findViewById(R.id.img_user);
 		tabLayout = findViewById(R.id.tab_layout_main);
 		coordinator = findViewById(R.id.coordinator);
@@ -75,17 +105,25 @@ public class ProfileActivity extends AppCompatActivity {
 		btnCover.setVisibility(View.GONE);
 		showUserData();
 
-		ViewPager viewPager = findViewById(R.id.viewpager_main);
-		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+		viewPager = findViewById(R.id.viewpager_main);
+		adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		viewPager.setOffscreenPageLimit(isAdmin ? 3 : 2);
 		adapter.addFragment(AboutUserFragment.newInstance(), "About");
-		adapter.addFragment(PhotoFragment.newInstance(), "Photos");
+		adapter.addFragment(PhotoFragment.newInstance(isMyProfile, user), "Photos");
 		if (isAdmin)
 			adapter.addFragment(EditUserFragment.newInstance(), "Edit");
 		viewPager.setAdapter(adapter);
 
 		tabLayout.setupWithViewPager(viewPager);
 		changeTabsFont();
+	}
+
+	public boolean checkNetwork() {
+		if (isNetworkConnected()) {
+			return true;
+		}
+		Toast.makeText(this, getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+		return false;
 	}
 
 	private void changeTabsFont() {
@@ -128,7 +166,26 @@ public class ProfileActivity extends AppCompatActivity {
 		}
 	}
 
+	public boolean isNetworkConnected() {
+		ConnectivityManager cm =
+				(ConnectivityManager) StarGangApplication.getInstance().getApplicationContext()
+						.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (cm != null) {
+			NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+			return activeNetwork != null &&
+					activeNetwork.isConnectedOrConnecting();
+		}
+		return false;
+	}
+
 	private void setHookListeners() {
+		viewEdit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (adapter.getCount() == 3)
+					viewPager.setCurrentItem(2);
+			}
+		});
 		tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 			@Override
 			public void onTabSelected(TabLayout.Tab tab) {
@@ -136,15 +193,20 @@ public class ProfileActivity extends AppCompatActivity {
 					btnCover.setVisibility(View.VISIBLE);
 					btnImage.setVisibility(View.VISIBLE);
 					overlay.setVisibility(View.VISIBLE);
+					txtEdit.setTextColor(ContextCompat.getColor(ProfileActivity.this, R.color.colorGOld));
+					imgEdit.setImageDrawable(ContextCompat.getDrawable(ProfileActivity.this, R.drawable.edit_profile_highlight));
 				} else {
 					btnImage.setVisibility(View.GONE);
 					btnCover.setVisibility(View.GONE);
 					overlay.setVisibility(View.GONE);
+					txtEdit.setTextColor(ContextCompat.getColor(ProfileActivity.this, R.color.colorGray999));
+					imgEdit.setImageDrawable(ContextCompat.getDrawable(ProfileActivity.this, R.drawable.edit_profile_icon));
 				}
 				showUserData();
 				Constants.profilePic = null;
 				Constants.cover = null;
 			}
+
 
 			@Override
 			public void onTabUnselected(TabLayout.Tab tab) {
@@ -172,16 +234,175 @@ public class ProfileActivity extends AppCompatActivity {
 		});
 	}
 
+	private void proceedSubs(final User user) {
+		if (!user.isSubscribe()) {
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					doSubscribe(user);
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			alertDialog = UtilityManager.showAlert(ProfileActivity.this, null,
+					"Do you want to subscribe " + user.getFullName() + "?",
+					"Yes", "No", false,
+					listenerYes, listener);
+		} else {
+			DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialogInterface, int i) {
+					doUnsubscribe(user);
+					if (alertDialog != null) alertDialog.dismiss();
+				}
+			};
+			alertDialog = UtilityManager.showAlert(ProfileActivity.this, null,
+					"Do you want to unsubscribe " + user.getFullName() + "?",
+					"Yes", "No", false,
+					listenerYes, listener);
+		}
+	}
+
+	private void doUnsubscribe(final User user) {
+		if (checkNetwork())
+			new UserRequestHelperImpl().doUnsubscribe(user, new APIHelper.PostManResponseListener() {
+				@Override
+				public void onResponse(Ancestor ancestor) {
+					if (ancestor.getStatus()) {
+						Toast.makeText(ProfileActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
+						updateUser(user);
+					} else {
+						Toast.makeText(ProfileActivity.this, "Request Failed", Toast.LENGTH_SHORT).show();
+					}
+				}
+
+				@Override
+				public void onError(Error error) {
+					if (error != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(ProfileActivity.this,
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
+	}
+
+	private void doSubscribe(final User user) {
+		if (checkNetwork())
+			new UserRequestHelperImpl().doSubscribe(user, new APIHelper.PostManResponseListener() {
+				@Override
+				public void onResponse(Ancestor ancestor) {
+					if (ancestor.getStatus()) {
+						Toast.makeText(ProfileActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
+						updateUser(user);
+					} else {
+						Toast.makeText(ProfileActivity.this, "Request Failed", Toast.LENGTH_SHORT).show();
+					}
+				}
+
+				@Override
+				public void onError(Error error) {
+					if (error != null) {
+						if (!TextUtils.isEmpty(error.getMessage())) {
+							Toast.makeText(ProfileActivity.this,
+									error.getMessage(), Toast.LENGTH_SHORT).show();
+						}
+					}
+				}
+			});
+	}
+
+	private void updateUser(User user) {
+		user.setSubscribe(!user.isSubscribe());
+		if (user.isSubscribe()) {
+			txtFollow.setText("Following");
+			txtFollow.setTextColor(ContextCompat.getColor(this, R.color.colorAccent_));
+			imgFollow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.following_icon));
+		} else {
+			txtFollow.setText("Follow");
+			txtFollow.setTextColor(ContextCompat.getColor(this, R.color.colorGray999));
+			imgFollow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.follow_icon));
+		}
+	}
+
 	private void showUserData() {
-		Signup user = UserSessionManager.getInstance().getUser();
-		if (user != null) {
-			txtName.setText(!TextUtils.isEmpty(user.getFullName()) ? user.getFullName() : "");
-			List<UserType> type = user.getType();
-			if (type != null && !type.isEmpty()) {
-				UserType userType = type.get(0);
-				if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
-						&& TextUtils.equals(userType.getIduserType(), "1")) {
-					isAdmin = true;
+		if (isMyProfile) {
+			Signup user = UserSessionManager.getInstance().getUser();
+			if (user != null) {
+				txtName.setText(!TextUtils.isEmpty(user.getFullName()) ? user.getFullName() : "");
+				List<UserType> type = user.getType();
+				if (type != null && !type.isEmpty()) {
+					UserType userType = type.get(0);
+					if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
+							&& TextUtils.equals(userType.getIduserType(), "1")) {
+						isAdmin = true;
+						if (!TextUtils.isEmpty(user.getImage()))
+							Glide.with(this)
+									.load(user.getImage())
+									.crossFade()
+									.diskCacheStrategy(DiskCacheStrategy.ALL)
+									.into(imgProfilePic);
+						if (!TextUtils.isEmpty(user.getcImage()))
+							Glide.with(this)
+									.load(user.getcImage())
+									.centerCrop()
+									.diskCacheStrategy(DiskCacheStrategy.ALL)
+									.into(imgCover);
+					} else {
+						findViewById(R.id.layout_edit).setVisibility(View.GONE);
+					}
+				}
+			}
+			findViewById(R.id.layout_follow).setVisibility(View.GONE);
+		} else {
+			if (getIntent().getExtras() == null) return;
+			user = (User) getIntent().getExtras().getSerializable("user");
+			if (user != null) {
+				Signup signup = UserSessionManager.getInstance().getUser();
+				if (user.getId().equalsIgnoreCase(signup.getId())) {
+					findViewById(R.id.layout_follow).setVisibility(View.GONE);
+					List<UserType> type = user.getType();
+					if (type != null && !type.isEmpty()) {
+						UserType userType = type.get(0);
+						if (userType != null && !TextUtils.isEmpty(userType.getIduserType())
+								&& TextUtils.equals(userType.getIduserType(), "1")) {
+							isAdmin = true;
+						}
+					}
+				} else {
+					findViewById(R.id.layout_edit).setVisibility(View.GONE);
+					if (user.isSubscribe()) {
+						txtFollow.setText("Following");
+						txtFollow.setTextColor(ContextCompat.getColor(this, R.color.colorAccent_));
+						imgFollow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.following_icon));
+					} else {
+						txtFollow.setText("Follow");
+						txtFollow.setTextColor(ContextCompat.getColor(this, R.color.colorGray999));
+						imgFollow.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.follow_icon));
+					}
+					findViewById(R.id.layout_follow).setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							proceedSubs(user);
+						}
+					});
+				}
+
+				txtName.setText(!TextUtils.isEmpty(user.getFullName()) ? user.getFullName() : "");
+				List<UserType> type = user.getType();
+				if (type != null && !type.isEmpty()) {
 					if (!TextUtils.isEmpty(user.getImage()))
 						Glide.with(this)
 								.load(user.getImage())
@@ -197,7 +418,6 @@ public class ProfileActivity extends AppCompatActivity {
 				}
 
 			}
-
 		}
 	}
 

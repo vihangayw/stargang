@@ -32,6 +32,17 @@ public class PostRequestHelperImpl implements PostRequestHelper {
 	}
 
 	@Override
+	public void getPost(String uid, int page, int limit, APIHelper.PostManResponseListener listener) {
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("page", String.valueOf(page));
+		paramMap.put("orderBy", "descending");
+		paramMap.put("post", String.valueOf(limit));
+		paramMap.put("uid", uid);
+		APIHelper.getInstance().sendAuthStringRequestsWithParams(listener, new AncestorPostListResponseFactory(),
+				Request.Method.POST, APIURLHelper.getOldPostURL(), paramMap);
+	}
+
+	@Override
 	public void addPost(String caption, APIHelper.PostManResponseListener listener) {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("ptext", caption.trim());

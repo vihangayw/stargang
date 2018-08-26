@@ -1,45 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ui.ProfileActivity"
-    tools:showIn="@layout/fragment_user">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	app:layout_behavior="@string/appbar_scrolling_view_behavior"
+	tools:context=".ui.ProfileActivity"
+	tools:showIn="@layout/activity_profile">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+	<android.support.design.widget.TabLayout
+		android:id="@+id/tab_layout_main"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@color/colorGrayEEE"
+		android:minHeight="@dimen/_48sdp"
+		android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+		app:tabIndicatorColor="@color/colorAccent"
+		app:tabIndicatorHeight="2dp"
+		app:tabMode="fixed"
+		app:tabSelectedTextColor="@color/colorAccent"
+		app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
+		app:tabTextColor="@color/colorWhite" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+	<android.support.v4.view.ViewPager
+		android:id="@+id/viewpager_main"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/tab_layout_main" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fillViewport="false"
-                android:minHeight="@dimen/_48sdp"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:tabIndicatorColor="@color/colorAccent"
-                app:tabIndicatorHeight="2dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/colorAccent"
-                app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-                app:tabTextColor="@color/colorWhite" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/tab_layout_main"
-                android:nestedScrollingEnabled="true" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

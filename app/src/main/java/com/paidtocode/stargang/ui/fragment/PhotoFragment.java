@@ -41,6 +41,7 @@ import com.paidtocode.stargang.api.response.Error;
 import com.paidtocode.stargang.api.response.PostListResponse;
 import com.paidtocode.stargang.listener.EndlessRecyclerViewScrollListener;
 import com.paidtocode.stargang.modal.Post;
+import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.Wall;
 import com.paidtocode.stargang.ui.AddPostActivity;
 import com.paidtocode.stargang.ui.CommentActivity;
@@ -77,6 +78,8 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	private CoordinatorLayout coordinator;
 	private SwipeRefreshLayout refreshLayout;
 	private Post postComment;
+	private boolean isMyProfile;
+	private User user;
 
 	public PhotoFragment() {
 		// Required empty public constructor
@@ -86,15 +89,26 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	 * Use this factory method to create a new instance of
 	 * this fragment using the provided parameters.
 	 *
+	 * @param isMyProfile
+	 * @param user
 	 * @return A new instance of fragment EditUserFragment.
 	 */
-	public static PhotoFragment newInstance() {
-		return new PhotoFragment();
+	public static PhotoFragment newInstance(boolean isMyProfile, User user) {
+		PhotoFragment fragment = new PhotoFragment();
+		Bundle args = new Bundle();
+		args.putBoolean("isMyProfile", isMyProfile);
+		args.putSerializable("user", user);
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (getArguments() != null) {
+			isMyProfile = getArguments().getBoolean("isMyProfile");
+			user = (User) getArguments().getSerializable("user");
+		}
 	}
 
 	@Override
@@ -121,79 +135,128 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 					ContextCompat.getColor(getContext(), R.color.colorPrimaryDark)
 			);
 		fab = view.findViewById(R.id.add_images);
+		if (!isMyProfile) fab.setVisibility(View.GONE);
 		txtInfo = view.findViewById(R.id.txt_info);
 		coordinator = view.findViewById(R.id.coordinator);
 		txtInfo.setVisibility(View.GONE);
 
 		recyclerView = view.findViewById(R.id.recycler_view);
+//		recyclerView.setNestedScrollingEnabled(false);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 		adapter = new PhotoAdapter(null, this, getContext());
 		recyclerView.setAdapter(adapter);
-
-		endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(
-				(LinearLayoutManager) recyclerView.getLayoutManager()) {
-			@Override
-			public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-				if (adapter != null && adapter.getItemCount() > 0
-						&& adapter.getPosts().get(adapter.getItemCount() - 1) != null) {
-					adapter.getPosts().add(null);
-					recyclerView.post(new Runnable() {
-						public void run() {
-							adapter.notifyItemInserted(adapter.getItemCount() - 1);
-						}
-					});
-					loadMore(++PhotoFragment.this.page);
+		if (isMyProfile)
+			endlessRecyclerViewScrollListener = new EndlessRecyclerViewScrollListener(
+					(LinearLayoutManager) recyclerView.getLayoutManager()) {
+				@Override
+				public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+					if (adapter != null && adapter.getItemCount() > 0
+							&& adapter.getPosts().get(adapter.getItemCount() - 1) != null) {
+						adapter.getPosts().add(null);
+						recyclerView.post(new Runnable() {
+							public void run() {
+								adapter.notifyItemInserted(adapter.getItemCount() - 1);
+							}
+						});
+						loadMore(++PhotoFragment.this.page);
+					}
 				}
-			}
-		};
+			};
 	}
 
 	private void loadMore(final int page) {
 		if (checkNetwork()) {
-			new PostRequestHelperImpl().getMyPost(page, LIMIT, new APIHelper.PostManResponseListener() {
-				@Override
-				public void onResponse(Ancestor ancestor) {
-					refreshLayout.setRefreshing(false);
-					if (adapter == null) return;
-					removeProgress();
-					if (ancestor instanceof PostListResponse) {
-						List<Post> data = ((PostListResponse) ancestor).getData();
-						if (data != null) {
-							if (page == 1 && data.isEmpty()) {
-								txtInfo.setText(R.string.no_posts);
-								txtInfo.setVisibility(View.VISIBLE);
-							} else {
-								txtInfo.setVisibility(View.GONE);
+			if (isMyProfile)
+				new PostRequestHelperImpl().getMyPost(page, LIMIT, new APIHelper.PostManResponseListener() {
+					@Override
+					public void onResponse(Ancestor ancestor) {
+						refreshLayout.setRefreshing(false);
+						if (adapter == null) return;
+						removeProgress();
+						if (ancestor instanceof PostListResponse) {
+							List<Post> data = ((PostListResponse) ancestor).getData();
+							if (data != null) {
+								if (page == 1 && data.isEmpty()) {
+									txtInfo.setText(R.string.no_posts);
+									txtInfo.setVisibility(View.VISIBLE);
+								} else {
+									txtInfo.setVisibility(View.GONE);
+								}
+								adapter.getPosts().addAll(data);
+								adapter.notifyDataSetChanged();
 							}
-							adapter.getPosts().addAll(data);
-							adapter.notifyDataSetChanged();
 						}
 					}
-				}
 
-				private void removeProgress() {
-					if (adapter.getItemCount() > 0
-							&& adapter.getPosts().get(adapter.getItemCount() - 1) == null) {
-						adapter.getPosts().remove(adapter.getItemCount() - 1);
-						adapter.notifyItemRemoved(adapter.getItemCount() - 1);
-					}
-				}
-
-
-				@Override
-				public void onError(Error error) {
-					refreshLayout.setRefreshing(false);
-					PhotoFragment.this.page--;
-					if (adapter == null) return;
-					removeProgress();
-					if (getActivity() != null) {
-						if (!TextUtils.isEmpty(error.getMessage())) {
-							Toast.makeText(getActivity(),
-									error.getMessage(), Toast.LENGTH_SHORT).show();
+					private void removeProgress() {
+						if (adapter.getItemCount() > 0
+								&& adapter.getPosts().get(adapter.getItemCount() - 1) == null) {
+							adapter.getPosts().remove(adapter.getItemCount() - 1);
+							adapter.notifyItemRemoved(adapter.getItemCount() - 1);
 						}
 					}
-				}
-			});
+
+
+					@Override
+					public void onError(Error error) {
+						refreshLayout.setRefreshing(false);
+						PhotoFragment.this.page--;
+						if (adapter == null) return;
+						removeProgress();
+						if (getActivity() != null) {
+							if (!TextUtils.isEmpty(error.getMessage())) {
+								Toast.makeText(getActivity(),
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					}
+				});
+			else if (user != null) {
+				new PostRequestHelperImpl().getPost(user.getId(), 1, 1, new APIHelper.PostManResponseListener() {
+					@Override
+					public void onResponse(Ancestor ancestor) {
+						refreshLayout.setRefreshing(false);
+						if (adapter == null) return;
+						removeProgress();
+						if (ancestor instanceof PostListResponse) {
+							List<Post> data = ((PostListResponse) ancestor).getData();
+							if (data != null) {
+								if (page == 1 && data.isEmpty()) {
+									txtInfo.setText(R.string.no_posts);
+									txtInfo.setVisibility(View.VISIBLE);
+								} else {
+									txtInfo.setVisibility(View.GONE);
+								}
+								adapter.getPosts().addAll(data);
+								adapter.notifyDataSetChanged();
+							}
+						}
+					}
+
+					private void removeProgress() {
+						if (adapter.getItemCount() > 0
+								&& adapter.getPosts().get(adapter.getItemCount() - 1) == null) {
+							adapter.getPosts().remove(adapter.getItemCount() - 1);
+							adapter.notifyItemRemoved(adapter.getItemCount() - 1);
+						}
+					}
+
+
+					@Override
+					public void onError(Error error) {
+						refreshLayout.setRefreshing(false);
+						PhotoFragment.this.page--;
+						if (adapter == null) return;
+						removeProgress();
+						if (getActivity() != null) {
+							if (!TextUtils.isEmpty(error.getMessage())) {
+								Toast.makeText(getActivity(),
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					}
+				});
+			}
 		} else {
 			refreshLayout.setRefreshing(false);
 			this.page--;
@@ -207,7 +270,8 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 	}
 
 	private void setListeners() {
-		recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
+		if (endlessRecyclerViewScrollListener != null)
+			recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener);
 
 		fab.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -219,7 +283,8 @@ public class PhotoFragment extends Fragment implements PhotoAdapter.OnComponentC
 			@Override
 			public void onRefresh() {
 				refreshLayout.setRefreshing(true);
-				endlessRecyclerViewScrollListener.resetState();
+				if (endlessRecyclerViewScrollListener != null)
+					endlessRecyclerViewScrollListener.resetState();
 				PhotoFragment.this.page = 0;
 				if (adapter != null) {
 					if (adapter.getItemCount() > 0) {

@@ -24,6 +24,7 @@ public class Post implements Serializable {
 	public Post() {
 	}
 
+
 	public boolean isLikeByMe() {
 		return likeByMe;
 	}

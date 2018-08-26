@@ -104,8 +104,11 @@ public class UserFragment extends Fragment {
 		btnEditProfile.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				if (getActivity() != null)
-					startActivity(new Intent(getActivity(), ProfileActivity.class));
+				if (getActivity() != null) {
+					Intent intent = new Intent(getActivity(), ProfileActivity.class);
+					intent.setAction("MyProfile");
+					startActivity(intent);
+				}
 			}
 		});
 		btnLogout.setOnClickListener(new View.OnClickListener() {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-	android:layout_marginBottom="@dimen/_3sdp"
-	android:layout_marginTop="@dimen/_3sdp"
+	android:id="@+id/item_layt"
+	android:layout_marginBottom="@dimen/_2sdp"
+	android:layout_marginTop="@dimen/_2sdp"
 	android:background="@color/colorGrayEEE"
 	android:layout_height="@dimen/_70sdp">
 
@@ -51,11 +52,13 @@
 	            android:layout_alignParentEnd="true"
 	            android:layout_centerVertical="true"
 	            android:gravity="center"
+	            android:clickable="true"
 	            android:background="@drawable/follow_button"
                 android:fontFamily="@font/sanfranciscotext_regular"
                 android:text="@string/subscribe"
 	            android:textColor="@color/colorBlack"
-                android:textSize="@dimen/_9sdp" />
+	            android:focusable="true"
+	            android:textSize="@dimen/_9sdp" />
         </RelativeLayout>
 
     </RelativeLayout>

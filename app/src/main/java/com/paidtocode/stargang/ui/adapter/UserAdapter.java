@@ -140,18 +140,27 @@ public class UserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		final TextView txtName;
 		final TextView btnSubscribe;
 		final ImageView imgUser;
+		final View itemLayout;
 
 		UserViewHolder(View itemView) {
 			super(itemView);
 			btnSubscribe = itemView.findViewById(R.id.btn_sub);
 			txtName = itemView.findViewById(R.id.txt_name);
 			imgUser = itemView.findViewById(R.id.img_user);
+			itemLayout = itemView.findViewById(R.id.item_layt);
 
 			setListener();
 		}
 
 		private void setListener() {
 			btnSubscribe.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					if (listener != null)
+						listener.onComponentClick(view, getLayoutPosition());
+				}
+			});
+			itemLayout.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					if (listener != null)

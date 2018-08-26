@@ -15,12 +15,21 @@ public class User implements Serializable {
 	private String email;
 	private String fullName;
 	private String image;
+	private String cImage;
 	private String info;
 	private boolean subscribe;
 	private int dateRemaining;
 	private List<UserType> type;
 
 	public User() {
+	}
+
+	public String getcImage() {
+		return cImage;
+	}
+
+	public void setcImage(String cImage) {
+		this.cImage = cImage;
 	}
 
 	public int getDateRemaining() {
