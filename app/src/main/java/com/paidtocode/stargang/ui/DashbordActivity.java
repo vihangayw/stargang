@@ -2,11 +2,17 @@ package com.paidtocode.stargang.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.ui.adapter.ViewPagerAdapter;
 import com.paidtocode.stargang.ui.fragment.HomeFragment;
@@ -21,7 +27,7 @@ public class DashbordActivity extends AppCompatActivity implements
 	private ViewPager viewPager;
 	private final int[] navItems = new int[]{R.id.navigation_home, R.id.navigation_dashboard,
 			R.id.navigation_notifications, R.id.navigation_qs};
-	private BottomNavigationView navigation;
+	private BottomNavigationViewEx navigation;
 	private SubscriptionFragment subscriptionFragment;
 
 	@Override
@@ -36,6 +42,17 @@ public class DashbordActivity extends AppCompatActivity implements
 	private void initializeViews() {
 		navigation = findViewById(R.id.navigation);
 		BottomNavigationViewHelper.removeShiftMode(navigation);
+		BottomNavigationMenuView menuView = (BottomNavigationMenuView) navigation.getChildAt(0);
+		for (int i = 0; i < menuView.getChildCount(); i++) {
+			final View iconView = menuView.getChildAt(i).findViewById(android.support.design.R.id.icon);
+			final ViewGroup.LayoutParams layoutParams = iconView.getLayoutParams();
+			final DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+			layoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, displayMetrics);
+			layoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 21, displayMetrics);
+			iconView.setLayoutParams(layoutParams);
+		}
+		navigation.setTextVisibility(false);
+		navigation.setTextSize(0);
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 		viewPager = findViewById(R.id.viewPager);
 		viewPager.setOffscreenPageLimit(4);
