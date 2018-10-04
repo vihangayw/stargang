@@ -41,6 +41,7 @@ import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserList;
 import com.paidtocode.stargang.ui.ProfileActivity;
 import com.paidtocode.stargang.ui.adapter.UserAdapter;
+import com.paidtocode.stargang.util.UserSessionManager;
 import com.paidtocode.stargang.util.UtilityManager;
 import com.paidtocode.stargang.util.WrapContentLinearLayoutManager;
 
@@ -311,7 +312,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i) {
-					doSubscribe(user);
+					mobitelSubscribe(user);
 					if (alertDialog != null) alertDialog.dismiss();
 				}
 			};
@@ -329,7 +330,7 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i) {
-					doUnsubscribe(user);
+					mobitelUnSubscribe(user);
 					if (alertDialog != null) alertDialog.dismiss();
 				}
 			};
@@ -374,10 +375,10 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 				@Override
 				public void onResponse(Ancestor ancestor) {
 					if (ancestor.getStatus()) {
-						if (getActivity() != null)
-							Toast.makeText(getActivity(), "Request Sent", Toast.LENGTH_SHORT).show();
+//						if (getActivity() != null)
+//							Toast.makeText(getActivity(), "Request Sent", Toast.LENGTH_SHORT).show();
 						updateUser(user);
-						mobitelSubscribe(user);
+//						mobitelSubscribe(user);
 					} else {
 						if (getActivity() != null)
 							Toast.makeText(getActivity(), "Request Failed", Toast.LENGTH_SHORT).show();
@@ -397,30 +398,68 @@ public class SubscriptionFragment extends Fragment implements UserAdapter.OnComp
 			});
 	}
 
-	private void mobitelSubscribe(User user) {
-		try {
-			new MobitelRequestHelperImpl().subscribe("roomek", new APIHelper.PostManMobitelResponseListener() {
-				@Override
-				public void onResponse(MobitelAncestor ancestor) {
-					if (ancestor instanceof SubscriberResponse) {
-
-					}
-				}
-
-				@Override
-				public void onError(Error error) {
-					if (getActivity() == null) return;
-					if (error != null) {
-						if (!TextUtils.isEmpty(error.getMessage())) {
-							Toast.makeText(getActivity(),
-									error.getMessage(), Toast.LENGTH_SHORT).show();
+	private void mobitelSubscribe(final User user) {
+		if (checkNetwork())
+			try {
+				new MobitelRequestHelperImpl().subscribe(UserSessionManager.getInstance().getUser().getuMobile(), new APIHelper.PostManMobitelResponseListener() {
+					@Override
+					public void onResponse(MobitelAncestor ancestor) {
+						if (ancestor instanceof SubscriberResponse) {
+							String message = ancestor.getMessage();
+							if (!TextUtils.isEmpty(message) && getActivity() != null)
+								Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+							if (ancestor.getStatus() == 1000) {
+								doSubscribe(user);
+							}
 						}
 					}
-				}
-			});
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+
+					@Override
+					public void onError(Error error) {
+						if (getActivity() == null) return;
+						if (error != null) {
+							if (!TextUtils.isEmpty(error.getMessage())) {
+								Toast.makeText(getActivity(),
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					}
+				});
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	}
+
+	private void mobitelUnSubscribe(final User user) {
+		if (checkNetwork())
+			try {
+				new MobitelRequestHelperImpl().unsubscribe(UserSessionManager.getInstance().getUser().getuMobile(), new APIHelper.PostManMobitelResponseListener() {
+					@Override
+					public void onResponse(MobitelAncestor ancestor) {
+						if (ancestor instanceof SubscriberResponse) {
+							String message = ancestor.getMessage();
+							if (!TextUtils.isEmpty(message) && getActivity() != null)
+								Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+							if (ancestor.getStatus() == 1000) {
+								doUnsubscribe(user);
+							}
+						}
+					}
+
+					@Override
+					public void onError(Error error) {
+						if (getActivity() == null) return;
+						if (error != null) {
+							if (!TextUtils.isEmpty(error.getMessage())) {
+								Toast.makeText(getActivity(),
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					}
+				});
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 	}
 
 	private void updateUser(User user) {

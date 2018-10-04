@@ -12,4 +12,6 @@ import org.json.JSONException;
 public interface MobitelRequestHelper {
 
 	void subscribe(String no, APIHelper.PostManMobitelResponseListener postManMobitelResponseListener) throws JSONException;
+
+	void unsubscribe(String no, APIHelper.PostManMobitelResponseListener postManMobitelResponseListener) throws JSONException;
 }

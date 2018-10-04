@@ -1,12 +1,14 @@
 package com.paidtocode.stargang.api.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Vihanga on 27/2/18.
  */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MobitelAncestor<T> {
 
 	private String message;

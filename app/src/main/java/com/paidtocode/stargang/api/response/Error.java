@@ -1,16 +1,17 @@
 package com.paidtocode.stargang.api.response;
 
 import com.android.volley.VolleyError;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Vihanga on 27/2/18.
  */
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Error extends Ancestor<Object> {
 
 
-	public Error(@JsonProperty("message") String message,
+	public Error(@JsonProperty("httpCode") String message,
 	             @JsonProperty("data") Object data,
 	             @JsonProperty("status") boolean status) {
 		super(message, status, data);

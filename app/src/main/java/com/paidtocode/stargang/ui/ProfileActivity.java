@@ -34,9 +34,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.paidtocode.stargang.R;
 import com.paidtocode.stargang.StarGangApplication;
 import com.paidtocode.stargang.api.APIHelper;
+import com.paidtocode.stargang.api.request.helper.impl.MobitelRequestHelperImpl;
 import com.paidtocode.stargang.api.request.helper.impl.UserRequestHelperImpl;
 import com.paidtocode.stargang.api.response.Ancestor;
 import com.paidtocode.stargang.api.response.Error;
+import com.paidtocode.stargang.api.response.MobitelAncestor;
+import com.paidtocode.stargang.api.response.SubscriberResponse;
 import com.paidtocode.stargang.modal.Signup;
 import com.paidtocode.stargang.modal.User;
 import com.paidtocode.stargang.modal.UserType;
@@ -49,6 +52,8 @@ import com.paidtocode.stargang.util.UserSessionManager;
 import com.paidtocode.stargang.util.UtilityManager;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.List;
@@ -245,7 +250,7 @@ public class ProfileActivity extends AppCompatActivity {
 			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i) {
-					doSubscribe(user);
+					mobitelSubscribe(user);
 					if (alertDialog != null) alertDialog.dismiss();
 				}
 			};
@@ -263,7 +268,7 @@ public class ProfileActivity extends AppCompatActivity {
 			DialogInterface.OnClickListener listenerYes = new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialogInterface, int i) {
-					doUnsubscribe(user);
+					mobitelUnSubscribe(user);
 					if (alertDialog != null) alertDialog.dismiss();
 				}
 			};
@@ -322,6 +327,68 @@ public class ProfileActivity extends AppCompatActivity {
 					}
 				}
 			});
+	}
+
+	private void mobitelSubscribe(final User user) {
+		if (checkNetwork())
+			try {
+				new MobitelRequestHelperImpl().subscribe(UserSessionManager.getInstance().getUser().getuMobile(), new APIHelper.PostManMobitelResponseListener() {
+					@Override
+					public void onResponse(MobitelAncestor ancestor) {
+						if (ancestor instanceof SubscriberResponse) {
+							String message = ancestor.getMessage();
+							if (!TextUtils.isEmpty(message))
+								Toast.makeText(ProfileActivity.this, message, Toast.LENGTH_SHORT).show();
+							if (ancestor.getStatus() == 1000) {
+								doSubscribe(user);
+							}
+						}
+					}
+
+					@Override
+					public void onError(Error error) {
+						if (error != null) {
+							if (!TextUtils.isEmpty(error.getMessage())) {
+								Toast.makeText(ProfileActivity.this,
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					}
+				});
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	}
+
+	private void mobitelUnSubscribe(final User user) {
+		if (checkNetwork())
+			try {
+				new MobitelRequestHelperImpl().unsubscribe(UserSessionManager.getInstance().getUser().getuMobile(), new APIHelper.PostManMobitelResponseListener() {
+					@Override
+					public void onResponse(MobitelAncestor ancestor) {
+						if (ancestor instanceof SubscriberResponse) {
+							String message = ancestor.getMessage();
+							if (!TextUtils.isEmpty(message))
+								Toast.makeText(ProfileActivity.this, message, Toast.LENGTH_SHORT).show();
+							if (ancestor.getStatus() == 1000) {
+								doUnsubscribe(user);
+							}
+						}
+					}
+
+					@Override
+					public void onError(Error error) {
+						if (error != null) {
+							if (!TextUtils.isEmpty(error.getMessage())) {
+								Toast.makeText(ProfileActivity.this,
+										error.getMessage(), Toast.LENGTH_SHORT).show();
+							}
+						}
+					}
+				});
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 	}
 
 	private void updateUser(User user) {

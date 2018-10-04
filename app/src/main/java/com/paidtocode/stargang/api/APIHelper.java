@@ -2,6 +2,7 @@ package com.paidtocode.stargang.api;
 
 import android.graphics.Bitmap;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -270,8 +271,15 @@ public class APIHelper {
 			}
 		}) {
 
+			/**
+			 * Returns a list of extra HTTP headers to go along with this request. Can
+			 * throw {@link AuthFailureError} as authentication may be required to
+			 * provide these values.
+			 *
+			 * @throws AuthFailureError In the event of auth failure
+			 */
 			@Override
-			public Map<String, String> getHeaders() {
+			public Map<String, String> getHeaders() throws AuthFailureError {
 				return VolleySingleton.getInstance().getAPIHeaderJson();
 			}
 		};

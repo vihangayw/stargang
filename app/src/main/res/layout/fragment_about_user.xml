@@ -81,7 +81,7 @@
 			android:layout_height="wrap_content"
 			android:layout_marginTop="@dimen/_9sdp"
 			android:fontFamily="@font/sanfranciscotext_regular"
-			android:text="Info"
+			android:text="Birthday"
 			android:textColor="@color/colorGray999"
 			android:textSize="@dimen/_13sdp" />
 

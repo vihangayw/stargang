@@ -10,6 +10,8 @@
 		android:id="@+id/txt_search"
 		android:layout_width="match_parent"
 		android:layout_height="@dimen/_28sdp"
+		android:drawableStart="@drawable/ic_search"
+		android:drawablePadding="@dimen/_2sdp"
 		android:layout_marginBottom="@dimen/_7sdp"
 		android:layout_marginEnd="@dimen/_19sdp"
 		android:layout_marginStart="@dimen/_19sdp"

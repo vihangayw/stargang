@@ -143,9 +143,9 @@ public class VolleySingleton {
 	 */
 	public HashMap<String, String> getAPIHeaderJson() {
 		HashMap<String, String> headers = new HashMap<>();
-		headers.put("Content-Type", "application/json");
-		headers.put("accept", "application/json");
-		headers.put("X-IBM-Client-Id", "9abaf7cd-0fce-4ae2-b5ad-093d5f2d96b7");
+//		headers.put("Content-Type", "application/json");
+//		headers.put("accept", "application/json");
+		headers.put("x-ibm-client-id", "9abaf7cd-0fce-4ae2-b5ad-093d5f2d96b7");
 		// headers.put("Content-Encoding", "gzip");
 		return headers;
 	}
