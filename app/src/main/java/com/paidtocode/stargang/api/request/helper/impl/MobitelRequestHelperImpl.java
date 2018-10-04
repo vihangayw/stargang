@@ -12,6 +12,8 @@ import org.json.JSONException;
 public class MobitelRequestHelperImpl implements MobitelRequestHelper {
 	@Override
 	public void subscribe(String no, APIHelper.PostManMobitelResponseListener lis) throws JSONException {
+		if (no.startsWith("94")) no = no.replaceFirst("94", "0");
+		if (no.startsWith("+94")) no = no.replaceFirst("\\+94", "0");
 		APIHelper.getInstance().sendAuthJsonWithParams(lis, new AncestorSubscribeResponseFactory(),
 				Request.Method.POST, "https://apphub.mobitel.lk/mobext/mapi/subscription/addSubscription",
 				JsonService.toJsonNode(new Subscribe(322, no)));
@@ -19,6 +21,9 @@ public class MobitelRequestHelperImpl implements MobitelRequestHelper {
 
 	@Override
 	public void unsubscribe(String no, APIHelper.PostManMobitelResponseListener postManMobitelResponseListener) throws JSONException {
+
+		if (no.startsWith("94")) no = no.replaceFirst("94", "0");
+		if (no.startsWith("+94")) no = no.replaceFirst("\\+94", "0");
 		APIHelper.getInstance().sendAuthJsonWithParams(postManMobitelResponseListener, new AncestorSubscribeResponseFactory(),
 				Request.Method.POST, "https://apphub.mobitel.lk/mobext/mapi/subscription/unSubscribe",
 				JsonService.toJsonNode(new Subscribe(322, no)));
