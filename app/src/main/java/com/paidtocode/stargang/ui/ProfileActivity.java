@@ -285,7 +285,7 @@ public class ProfileActivity extends AppCompatActivity {
 				@Override
 				public void onResponse(Ancestor ancestor) {
 					if (ancestor.getStatus()) {
-						Toast.makeText(ProfileActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(ProfileActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
 						updateUser(user);
 					} else {
 						Toast.makeText(ProfileActivity.this, "Request Failed", Toast.LENGTH_SHORT).show();
@@ -310,7 +310,7 @@ public class ProfileActivity extends AppCompatActivity {
 				@Override
 				public void onResponse(Ancestor ancestor) {
 					if (ancestor.getStatus()) {
-						Toast.makeText(ProfileActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
+//						Toast.makeText(ProfileActivity.this, "Request Sent", Toast.LENGTH_SHORT).show();
 						updateUser(user);
 					} else {
 						Toast.makeText(ProfileActivity.this, "Request Failed", Toast.LENGTH_SHORT).show();
